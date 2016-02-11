@@ -1,4 +1,6 @@
 
+var three;
+
 /*
  * Camera Buttons
  */
@@ -6,7 +8,7 @@
 var CameraButtons = function(blueprint3d) {
 
   var orbitControls = blueprint3d.three.controls;
-  var three = blueprint3d.three;
+  three = blueprint3d.three;
 
   var panSpeed = 30;
   var directions = {
@@ -123,6 +125,7 @@ var ContextMenu = function(blueprint3d) {
     $("#item-width").val(cmToIn(selectedItem.getWidth()).toFixed(0));
     $("#item-height").val(cmToIn(selectedItem.getHeight()).toFixed(0));
     $("#item-depth").val(cmToIn(selectedItem.getDepth()).toFixed(0));
+    $("#item-name").val(selectedItem.name);
 
     $("#context-menu").show();
 
@@ -137,10 +140,15 @@ var ContextMenu = function(blueprint3d) {
     );
   }
 
+  function updateItemName() {
+    selectedItem.name = $("#item-name").val();
+  }
+
   function initResize() {
     $("#item-height").change(resize);
     $("#item-width").change(resize);
     $("#item-depth").change(resize);
+    $("#item-name").change(updateItemName);
   }
 
   function itemUnselected() {
@@ -500,6 +508,16 @@ var mainControls = function(blueprint3d) {
   }
 
   init();
+}
+
+function updateState(name) {
+  for (var i = 0; i < three.getScene().getItems().length; i++) {
+    var item = three.getScene().getItems()[i];
+    if (item.name == name)
+      item.switchState(function() {
+        three.needsUpdate();
+      });
+  }
 }
 
 /*
