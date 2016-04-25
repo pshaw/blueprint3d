@@ -43,6 +43,7 @@ var Model = function(textureDir) {
         xpos: object.position.x,
         ypos: object.position.y,
         zpos: object.position.z,
+        name: object.name,
         rotation: object.rotation.y,
         scale_x: object.scale.x,
         scale_y: object.scale.y,
@@ -64,7 +65,7 @@ var Model = function(textureDir) {
     this.floorplan.loadFloorplan(floorplan);
     utils.forEach(items, function(item) {
       position = new THREE.Vector3(
-        item.xpos, item.ypos, item.zpos)    
+        item.xpos, item.ypos, item.zpos)
       var metadata = {
         itemName: item.item_name,
         resizable: item.resizable,
@@ -83,7 +84,8 @@ var Model = function(textureDir) {
         position, 
         item.rotation,
         scale,
-        item.fixed);
+        item.fixed,
+        item.name);
     });
   }
 }

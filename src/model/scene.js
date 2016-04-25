@@ -83,7 +83,7 @@ var Scene = function(model, textureDir) {
     }
   }
 
-  this.addItem = function(itemType, fileName, metadata, position, rotation, scale, fixed) {
+  this.addItem = function(itemType, fileName, metadata, position, rotation, scale, fixed, name) {
     itemType = itemType || 1;
 
     var loaderCallback = function(geometry, materials) {
@@ -94,6 +94,7 @@ var Scene = function(model, textureDir) {
         position, rotation, scale
       );
       item.fixed = fixed || false;
+      item.name = name;
       items.push(item);
       scope.add(item);
       item.initObject();

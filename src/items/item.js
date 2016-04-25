@@ -33,7 +33,7 @@ var Item = function(model, metadata, geometry, material, position, rotation, sca
     this.obstructFloorMoves = true;
 
     if (position) {
-        this.position.copy(position);        
+        this.position.copy(position);
         this.position_set = true;
     } else {
         this.position_set = false;
@@ -129,6 +129,12 @@ Item.prototype.updateHighlight = function() {
     utils.forEach(this.material.materials, function(material) {
         material.emissive.setHex(hex);
     });
+}
+
+Item.prototype.switchState = function (callback) {
+    this.hover = !this.hover;
+    this.updateHighlight();
+    callback();
 }
 
 Item.prototype.mouseOver = function() {
