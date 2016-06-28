@@ -6,3 +6,4 @@ build
 *.sublime-project
 *.log
 
+.vscode
