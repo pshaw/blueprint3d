@@ -1,4 +1,4 @@
-module BP3D {
+module BP3D.Core {
 
   /** Collection of utility functions. */
   export class Utils {
@@ -259,7 +259,9 @@ module BP3D {
       startY = startY || 0;
 
       //console.log("checking polygon in polygon");
-      Utils.forEach(outsideCorners, function (c) { console.log(c.x + ", " + c.y) });
+      outsideCorners.forEach((corner) => {
+        console.log(corner.x + ", " + corner.y)
+      });
 
       for (var tI = 0; tI < insideCorners.length; tI++) {
         //console.log("checking point: " + insideCorners[i].x + ", " + insideCorners[i].y);
@@ -306,7 +308,7 @@ module BP3D {
 
     static map(array, func) {
       var tResult = [];
-      Utils.forEach(array, function (element) {
+      array.forEach((element) => {
         tResult.push(func(element));
       });
       return tResult;
@@ -315,7 +317,7 @@ module BP3D {
     /** Remove elements in array if func(element) returns true */
     static removeIf(array, func) {
       var tResult = [];
-      Utils.forEach(array, function (element) {
+      array.forEach((element) => {
         if (!func(element)) {
           tResult.push(element);
         }
