@@ -24,8 +24,8 @@ This is a customizable application built on three.js that allows users to design
 
 To get started, clone the repository and ensure you npm installed, then run:
 
-    npm update
-    npm run-script build
+    npm install / update
+    grunt
 
 The latter command generates `example/js/blueprint3d.js` from `src`.
 
@@ -47,11 +47,29 @@ This project requires a lot more work. In general, it was rushed through various
 
 Please contact us if you are interested in contributing.
 
+### Todos
+
+- More complete documentation (based on the TypeDoc comments)
+- Test suite (e.g. jasmine)
+- Make it easier to build a complete application using blueprint3d (cleaner API, more inclusive base, easier integration with a backend)
+- Better serialization format for saving/loading "designs"
+- Remove the dependency on jquery from the core source!
+- Better use of npm conventions and packaging
+- Various bug fixes
+- refactor three/* - use of classes, lambdas
+- update to current threejs
+- introduce a more formal persistency format
+- put all relevant settings into Core.Configuration to make them read-/writeable, User settings?
+- complete type docs for all entities
+- there're a few TODO_Ekki's left, kill them all
+
 ## Directory Structure
 
 ### `src/` Directory
 
 The `src` directory contains the core of the project. Here is a description of the various sub-directories:
+
+`core` - basic stuff like logging, plus some shared functions that are mostly deprecated in favor of functionality provided by various npm modules
 
 `floorplanner` - 2D view/controller for editing the floorplan
 
@@ -60,8 +78,6 @@ The `src` directory contains the core of the project. Here is a description of t
 `model` - Data model representing both the 2D floorplan and all of the items in it
 
 `three` - 3D view/controller for viewing and modifying item placement
-
-`utils` - some shared functions that are mostly deprecated in favor of functionality provided by various npm modules
 
 
 ### `example/` Directory

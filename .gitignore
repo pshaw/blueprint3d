@@ -6,3 +6,9 @@ build
 *.sublime-project
 *.log
 
+.vscode
+bin
+doc
+dist
+example/js/blueprint3d.js
+three.min.js
