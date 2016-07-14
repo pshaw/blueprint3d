@@ -16,31 +16,6 @@ module BP3D.Floorplanner {
     DELETE: 2
   };
 
-  // grid parameters
-  const gridSpacing = 20; // pixels
-  const gridWidth = 1;
-  const gridColor = "#f1f1f1";
-
-  // room config
-  const roomColor = "#f9f9f9";
-
-  // wall config
-  const wallWidth = 5;
-  const wallWidthHover = 7;
-  const wallColor = "#dddddd"
-  const wallColorHover = "#008cba"
-  const edgeColor = "#888888"
-  const edgeColorHover = "#008cba"
-  const edgeWidth = 1
-
-  const deleteColor = "#ff0000";
-
-  // corner config
-  const cornerRadius = 0
-  const cornerRadiusHover = 7
-  const cornerColor = "#cccccc"
-  const cornerColorHover = "#008cba"
-
   /**
    * The View to be used by a Floorplanner to render in/interact with.
    */
@@ -120,12 +95,16 @@ module BP3D.Floorplanner {
 
     /** */
     private drawWall(wall: Model.Wall) {
+      const wallWidth = Core.Configuration.getNumericValue(Core.configWallWidth);
+      const wallWidthHover = Core.Configuration.getNumericValue(Core.configWallWidthHover);
+      const deleteColor = Core.Configuration.getStringValue(Core.configDeleteColor);
+
       var hover = (wall === this.viewmodel.activeWall);
-      var color = wallColor;
+      var color = Core.Configuration.getStringValue(Core.configWallColor);
       if (hover && this.viewmodel.mode == floorplannerModes.DELETE) {
         color = deleteColor;
       } else if (hover) {
-        color = wallColorHover;
+        color = Core.Configuration.getStringValue(Core.configWallColorHover);
       }
       this.drawLine(
         this.viewmodel.convertX(wall.getStartX()),
@@ -168,11 +147,11 @@ module BP3D.Floorplanner {
 
     /** */
     private drawEdge(edge: Model.HalfEdge, hover) {
-      var color = edgeColor;
+      var color = Core.Configuration.getStringValue(Core.configEdgeColor);
       if (hover && this.viewmodel.mode == floorplannerModes.DELETE) {
-        color = deleteColor;
+        color = Core.Configuration.getStringValue(Core.configDeleteColor);
       } else if (hover) {
-        color = edgeColorHover;
+        color = Core.Configuration.getStringValue(Core.configEdgeColorHover);
       }
       var corners = edge.corners();
 
@@ -188,7 +167,7 @@ module BP3D.Floorplanner {
         null,
         true,
         color,
-        edgeWidth
+        Core.Configuration.getNumericValue(Core.configEdgeWidth)
       );
     }
 
@@ -203,23 +182,23 @@ module BP3D.Floorplanner {
           return scope.viewmodel.convertY(corner.y);
         }),
         true,
-        roomColor
+        Core.Configuration.getStringValue(Core.configRoomColor)
       );
     }
 
     /** */
     private drawCorner(corner: Model.Corner) {
       var hover = (corner === this.viewmodel.activeCorner);
-      var color = cornerColor;
+      var color = Core.Configuration.getStringValue(Core.configCornerColor);
       if (hover && this.viewmodel.mode == floorplannerModes.DELETE) {
-        color = deleteColor;
+        color = Core.Configuration.getStringValue(Core.configDeleteColor);
       } else if (hover) {
-        color = cornerColorHover;
+        color = Core.Configuration.getStringValue(Core.configCornerColorHover);
       }
       this.drawCircle(
         this.viewmodel.convertX(corner.x),
         this.viewmodel.convertY(corner.y),
-        hover ? cornerRadiusHover : cornerRadius,
+        Core.Configuration.getNumericValue(hover ? Core.configCornerRadiusHover : Core.configCornerRadius),
         color
       );
     }
@@ -229,8 +208,8 @@ module BP3D.Floorplanner {
       this.drawCircle(
         this.viewmodel.convertX(x),
         this.viewmodel.convertY(y),
-        cornerRadiusHover,
-        cornerColorHover
+        Core.Configuration.getNumericValue(Core.configCornerRadiusHover),
+        Core.Configuration.getStringValue(Core.configCornerColorHover)
       );
       if (this.viewmodel.lastNode) {
         this.drawLine(
@@ -238,8 +217,8 @@ module BP3D.Floorplanner {
           this.viewmodel.convertY(lastNode.y),
           this.viewmodel.convertX(x),
           this.viewmodel.convertY(y),
-          wallWidthHover,
-          wallColorHover
+          Core.Configuration.getNumericValue(Core.configWallWidthHover),
+          Core.Configuration.getStringValue(Core.configWallColorHover)
         );
       }
     }
@@ -288,6 +267,8 @@ module BP3D.Floorplanner {
 
     /** returns n where -gridSize/2 < n <= gridSize/2  */
     private calculateGridOffset(n) {
+      const gridSpacing = Core.Configuration.getNumericValue(Core.configGridSpacing);
+
       if (n >= 0) {
         return (n + gridSpacing / 2.0) % gridSpacing - gridSpacing / 2.0;
       } else {
@@ -297,6 +278,10 @@ module BP3D.Floorplanner {
 
     /** */
     private drawGrid() {
+      const gridWidth = Core.Configuration.getNumericValue(Core.configGridWidth);
+      const gridSpacing = Core.Configuration.getNumericValue(Core.configGridSpacing);
+      const gridColor = Core.Configuration.getStringValue(Core.configGridColor);
+
       var offsetX = this.calculateGridOffset(-this.viewmodel.originX);
       var offsetY = this.calculateGridOffset(-this.viewmodel.originY);
       var width = this.canvasElement.width;
