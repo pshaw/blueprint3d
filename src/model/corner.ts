@@ -117,7 +117,7 @@ module BP3D.Model {
     }
 
     /** Removes all walls. */
-    private removeAll() {
+    public removeAll() {
       for (var i = 0; i < this.wallStarts.length; i++) {
         this.wallStarts[i].remove();
       }
@@ -131,7 +131,7 @@ module BP3D.Model {
      * @param newX The new x position.
      * @param newY The new y position.
      */
-    private move(newX: number, newY: number) {
+    public move(newX: number, newY: number) {
       this.x = newX;
       this.y = newY;
       this.mergeWithIntersected();

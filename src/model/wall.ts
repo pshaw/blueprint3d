@@ -82,7 +82,7 @@ module BP3D.Model {
       this.orphan = false;
     }
 
-    private snapToAxis(tolerance: number) {
+    public snapToAxis(tolerance: number) {
       // order here is important, but unfortunately arbitrary
       this.start.snapToAxis(tolerance);
       this.end.snapToAxis(tolerance);
@@ -108,7 +108,7 @@ module BP3D.Model {
       this.action_callbacks.fire(action)
     }
 
-    private relativeMove(dx: number, dy: number) {
+    public relativeMove(dx: number, dy: number) {
       this.start.relativeMove(dx, dy);
       this.end.relativeMove(dx, dy);
     }
