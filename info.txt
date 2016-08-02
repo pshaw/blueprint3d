@@ -1,0 +1,4 @@
+Nils Todo List:
+* Make 2D work without 3D
+* Decouple from new ThreeJS instance, i.e. create walls into foreign scenegraph
+* Wallheight to scene description json
