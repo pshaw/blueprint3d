@@ -8,8 +8,9 @@
 /// <reference path="hud.ts" />
 
 module BP3D.Three {
-  export var Main = function (model, element, canvasElement, opts) {
+  export var Main = function (model, element, canvasElement, opts, alreadyRenderer, alreadyScene) {
     var scope = this;
+    var hasOwnRenderer = true;
 
     var options = {
       resize: true,
@@ -29,6 +30,9 @@ module BP3D.Three {
 
     var scene = model.scene;
 
+    if (alreadyScene != null) {
+        scene.scene = alreadyScene;
+    }
     var model = model;
     this.element = $(element);
     var domElement;
@@ -68,14 +72,21 @@ module BP3D.Three {
 
       domElement = scope.element.get(0) // Container
       camera = new THREE.PerspectiveCamera(45, 1, 1, 10000);
-      renderer = new THREE.WebGLRenderer({
-        antialias: true,
-        preserveDrawingBuffer: true // required to support .toDataURL()
-      });
-      renderer.autoClear = false,
+      
+      if (alreadyRenderer) {
+          renderer = alreadyRenderer;
+          hasOwnRenderer = false;
+      }
+      else {	
+        renderer = new THREE.WebGLRenderer({
+            antialias: true,
+            preserveDrawingBuffer: true // required to support .toDataURL()
+        });
+        renderer.autoClear = false,
         renderer.shadowMapEnabled = true;
-      renderer.shadowMapSoft = true;
-      renderer.shadowMapType = THREE.PCFSoftShadowMap;
+        renderer.shadowMapSoft = true;
+        renderer.shadowMapType = THREE.PCFSoftShadowMap;
+    }
 
       var skybox = new Three.Skybox(scene);
 
@@ -158,28 +169,38 @@ module BP3D.Three {
 
     }
     function shouldRender() {
-      // Do we need to draw a new frame
-      if (scope.controls.needsUpdate || controller.needsUpdate || needsUpdate || model.scene.needsUpdate) {
-        scope.controls.needsUpdate = false;
-        controller.needsUpdate = false;
-        needsUpdate = false;
-        model.scene.needsUpdate = false;
-        return true;
-      } else {
-        return false;
-      }
+        if (hasOwnRenderer == true)
+        {
+
+            // Do we need to draw a new frame
+            if (scope.controls.needsUpdate || controller.needsUpdate || needsUpdate || model.scene.needsUpdate) {
+                scope.controls.needsUpdate = false;
+                controller.needsUpdate = false;
+                needsUpdate = false;
+                model.scene.needsUpdate = false;
+                return true;
+            }
+            else {
+                return false;
+            }
+        }else{
+                return false;
+        }
     }
 
     function render() {
-      spin();
-      if (shouldRender()) {
-        renderer.clear();
-        renderer.render(scene.getScene(), camera);
-        renderer.clearDepth();
-        renderer.render(hud.getScene(), camera);
-      }
-      lastRender = Date.now();
-    };
+        if (hasOwnRenderer == true) {
+          spin();
+          if (shouldRender()) {
+            renderer.clear();
+            renderer.render(scene.getScene(), camera);
+            renderer.clearDepth();
+            renderer.render(hud.getScene(), camera);
+          }
+          lastRender = Date.now();
+        
+        };
+    }
 
     function animate() {
       var delay = 50;
