@@ -5,51 +5,51 @@
 module BP3D {
   /** Startup options. */
   export interface Options {
-    /** */
-    widget?: boolean;
+	/** */
+	widget?: boolean;
 
-    /** */
-    threeElement?: string;
+	/** */
+	threeElement?: string;
 
-    /** */
-    threeCanvasElement? : string;
+	/** */
+	threeCanvasElement? : string;
 
-    /** */
-    floorplannerElement?: string;
+	/** */
+	floorplannerElement?: string;
 
-    /** The texture directory. */
-    textureDir?: string;
+	/** The texture directory. */
+	textureDir?: string;
 
-    /** Use an existing renderer */
-    alreadyRenderer?: any;
+	/** Use an existing renderer */
+	alreadyRenderer?: any;
 
-    /** Add graphics into an already existing threejs scene */
-    alreadyScene?: any;
+	/** Add graphics into an already existing threejs scene */
+	alreadyScene?: any;
 
   }
 
   /** Blueprint3D core application. */
   export class Blueprint3d {
-    
-    private model: Model.Model;
+	
+	private model: Model.Model;
 
-    private three: any; // Three.Main;
+	private three: any; // Three.Main;
 
-    private floorplanner: Floorplanner.Floorplanner;
+	private floorplanner: Floorplanner.Floorplanner;
 
-    /** Creates an instance.
-     * @param options The initialization options.
-     */
-    constructor(options: Options) {
-      this.model = new Model.Model(options.textureDir);
-      this.three = new Three.Main(this.model, options.threeElement, options.threeCanvasElement, {}, null, null);
+	/** Creates an instance.
+	 * @param options The initialization options.
+	 */
+	constructor(options: Options) {
+		this.model = new Model.Model(options.textureDir);
+		this.three = new Three.Main(this.model, options.threeElement, options.threeCanvasElement, {}, options.alreadyRenderer, options.alreadyScene); // BP3D.Three.Main
 
-      if (!options.widget) {
-        this.floorplanner = new Floorplanner.Floorplanner(options.floorplannerElement, this.model.floorplan);
-      }
-      else {
-        this.three.getController().enabled = false;
-      }
-    }
+	  if (!options.widget) {
+		this.floorplanner = new Floorplanner.Floorplanner(options.floorplannerElement, this.model.floorplan);
+	  }
+	  else {
+		this.three.getController().enabled = false;
+	  }
+	}
   }
 }

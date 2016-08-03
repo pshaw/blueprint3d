@@ -9,8 +9,8 @@
 
 module BP3D.Three {
   export var Main = function (model, element, canvasElement, opts, alreadyRenderer, alreadyScene) {
-    var scope = this;
-    var hasOwnRenderer = true;
+      var scope = this;
+      var foreignRenderer = (alreadyRenderer != null);
 
     var options = {
       resize: true,
@@ -31,7 +31,7 @@ module BP3D.Three {
     var scene = model.scene;
 
     if (alreadyScene != null) {
-        scene.scene = alreadyScene;
+        scene = alreadyScene;          //Todo check scene level, scene.scene failed in test?!
     }
     var model = model;
     this.element = $(element);
@@ -73,11 +73,11 @@ module BP3D.Three {
       domElement = scope.element.get(0) // Container
       camera = new THREE.PerspectiveCamera(45, 1, 1, 10000);
       
-      if (alreadyRenderer) {
-          renderer = alreadyRenderer;
-          hasOwnRenderer = false;
-      }
-      else {	
+//      if (false || alreadyRenderer) {
+//          renderer = alreadyRenderer;
+//          hasOwnRenderer = false;
+//      }
+//      else {	
         renderer = new THREE.WebGLRenderer({
             antialias: true,
             preserveDrawingBuffer: true // required to support .toDataURL()
@@ -86,7 +86,7 @@ module BP3D.Three {
         renderer.shadowMapEnabled = true;
         renderer.shadowMapSoft = true;
         renderer.shadowMapType = THREE.PCFSoftShadowMap;
-    }
+//    }
 
       var skybox = new Three.Skybox(scene);
 
@@ -109,7 +109,9 @@ module BP3D.Three {
       scope.centerCamera();
       model.floorplan.fireOnUpdatedRooms(scope.centerCamera);
 
-      var lights = new Three.Lights(scene, model.floorplan);
+      if (!alreadyRenderer) {
+          var lights = new Three.Lights(scene, model.floorplan);
+      }
 
       floorplan = new Three.Floorplan(scene,
         model.floorplan, scope.controls);
@@ -169,8 +171,9 @@ module BP3D.Three {
 
     }
     function shouldRender() {
-        if (hasOwnRenderer == true)
-        {
+
+//        if (true || (hasOwnRenderer == true))
+//        {
 
             // Do we need to draw a new frame
             if (scope.controls.needsUpdate || controller.needsUpdate || needsUpdate || model.scene.needsUpdate) {
@@ -183,13 +186,15 @@ module BP3D.Three {
             else {
                 return false;
             }
-        }else{
-                return false;
-        }
+ //       }else
+//        {
+  //              return false;
+  //      }
     }
 
     function render() {
-        if (hasOwnRenderer == true) {
+
+        if (!foreignRenderer) {
           spin();
           if (shouldRender()) {
             renderer.clear();
@@ -200,6 +205,7 @@ module BP3D.Three {
           lastRender = Date.now();
         
         };
+
     }
 
     function animate() {
