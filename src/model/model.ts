@@ -13,7 +13,7 @@ module BP3D.Model {
     public floorplan: Floorplan;
 
     /** */
-    public scene: Scene;
+    public scene: BP3D.Model.Scene;
 
     /** */
     private roomLoadingCallbacks = $.Callbacks();

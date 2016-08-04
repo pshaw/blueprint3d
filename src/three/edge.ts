@@ -3,7 +3,10 @@
 /// <reference path="../core/utils.ts" />
 
 module BP3D.Three {
-  export var Edge = function (scene, edge, controls) {
+
+    export var CreateHierarchy = true; //false;
+    export var Edge = function (scene: BP3D.Model.Scene, edge: BP3D.Model.HalfEdge, controls) {
+     
     var scope = this;
     var scene = scene;
     var edge = edge;
@@ -14,6 +17,8 @@ module BP3D.Three {
     var planes = [];
     var basePlanes = []; // always visible
     var texture = null;
+
+    var id = Date.now(); //for hierarchy
 
     // new texture loader
     //var loader = new THREE.TextureLoader();
@@ -41,6 +46,7 @@ module BP3D.Three {
     }
 
     function redraw() {
+      console.log("edge.ts: redraw");
       removeFromScene();
       updateTexture();
       updatePlanes();
@@ -48,22 +54,46 @@ module BP3D.Three {
     }
 
     function removeFromScene() {
-      planes.forEach((plane) => {
-        scene.remove(plane);
-      });
-      basePlanes.forEach((plane) => {
-        scene.remove(plane);
-      });
+        console.log("edge.ts: removeFromScene");
+        if (CreateHierarchy) {
+            console.log("should delete: " + "demowall_" + id);
+            var selectedObject = scene.getScene().getObjectByName("demowall_" + id);
+            scene.getScene().remove(selectedObject);
+            
+        } else {
+
+            planes.forEach((plane) => {
+                scene.remove(plane);
+            });
+            basePlanes.forEach((plane) => {
+                scene.remove(plane);
+            });
+        }
       planes = [];
       basePlanes = [];
     }
 
     function addToScene() {
-      planes.forEach((plane) => {
-        scene.add(plane);
-      });
-      basePlanes.forEach((plane) => {
-        scene.add(plane);
+        console.log("edge.ts : addToScene ");
+        var tMeshParent: any = scene.getScene();    // should be Three.scene or three.Object3D
+
+        if (CreateHierarchy) {
+            var tObj = new THREE.Object3D();
+            scene.getScene().add(tObj);
+            tObj.name = "demowall_"+id;
+            tMeshParent = tObj;
+
+        }
+        
+
+        planes.forEach((plane) => {
+            console.log(plane);
+            tMeshParent.add(plane);
+        });
+        console.log("base:");
+        basePlanes.forEach((plane) => {
+            console.log(plane);
+            tMeshParent.add(plane);
       });
       updateVisibility();
     }
@@ -102,10 +132,10 @@ module BP3D.Three {
 
     function updateObjectVisibility() {
       wall.items.forEach((item) => {
-        item.updateEdgeVisibility(scope.visible, front);
+          (<BP3D.Items.WallItem>item).updateEdgeVisibility(scope.visible, front);
       });
       wall.onItems.forEach((item) => {
-        item.updateEdgeVisibility(scope.visible, front);
+          (<BP3D.Items.WallItem>item).updateEdgeVisibility(scope.visible, front);
       });
     }
 

@@ -545,9 +545,9 @@ var bp_example_init2d = function(){
 
   // main setup
   var opts = {
-	floorplannerElement: 'floorplanner-canvas',
-	threeElement: null, //'#viewer',
-	threeCanvasElement: null, // 'three-canvas',
+    floorplannerElement: 'floorplanner-canvas',
+    threeElement: null, //'#viewer',
+    threeCanvasElement: null, // 'three-canvas',
 //    textureDir: "models/textures/",
 //    widget: false
 
@@ -559,8 +559,8 @@ var bp_example_init2d = function(){
   var nmModel = new BP3D.Model.Model(opts.textureDir);
 
   var nilsOwnBluePrint3DObject = {
-	model : nmModel,
-	floorplanner : new BP3D.Floorplanner.Floorplanner(opts.floorplannerElement, nmModel.floorplan)
+    model : nmModel,
+    floorplanner : new BP3D.Floorplanner.Floorplanner(opts.floorplannerElement, nmModel.floorplan)
   };
 
   var blueprint3d = nilsOwnBluePrint3DObject;
@@ -597,17 +597,20 @@ var bp_example_init2d = function(){
  * Initialize! , no longer document ready
  */
 
-bp_example_init_3droom = function(renderer, scene) {
+bp_example_init_3droom = function(renderer, threeScene) {
+
+    var tFakeScene = new BP3D.Model.Scene();
+    tFakeScene.scene = threeScene;
 
   // main setup
   var opts = {
-	floorplannerElement: 'floorplanner-canvas',
-	threeElement: '#viewer',
-	threeCanvasElement: 'three-canvas',
-	textureDir: "models/textures/",
-	widget: false,
-	alreadyRenderer: renderer,
-	alreadyScene: scene
+    floorplannerElement: 'floorplanner-canvas',
+    threeElement: '#viewer',
+    threeCanvasElement: 'three-canvas',
+    textureDir: "models/textures/",
+    widget: false,
+    alreadyRenderer: renderer,
+    alreadyScene: tFakeScene
   }
 
   var blueprint3d = new BP3D.Blueprint3d(opts);
