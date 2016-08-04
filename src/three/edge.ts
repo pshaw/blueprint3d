@@ -7,7 +7,8 @@ module BP3D.Three {
     export class HierarchyConfig {
         static CreateHierarchy: boolean = true;
         static Prefix: string = "wall_";
-        static Postfix: string = "";
+        static Postfix: string = "_wl";
+        static PrefixLevel: boolean = true;
         static FirstFreeNumber: number = 1;
     }
 
@@ -88,14 +89,21 @@ module BP3D.Three {
         if (HierarchyConfig.CreateHierarchy) {
             var tObj = new THREE.Object3D();
             scene.getScene().add(tObj);
-            var tId = HierarchyConfig.Prefix + (HierarchyConfig.FirstFreeNumber) + HierarchyConfig.Postfix;
-            HierarchyConfig.FirstFreeNumber++;
-
-
+            var tId = HierarchyConfig.Prefix + (HierarchyConfig.FirstFreeNumber) + (HierarchyConfig.PrefixLevel ? "" : HierarchyConfig.Postfix);
+            //HierarchyConfig.FirstFreeNumber++;
             console.log("meshparent add id: ", tId);
             tObj.name = tId;
             tMeshParent = tObj;
             scope.id = tId;
+
+            if (HierarchyConfig.PrefixLevel == true)
+            {
+                var tImmObj = new THREE.Object3D();
+                tImmObj.name = HierarchyConfig.Prefix + (HierarchyConfig.FirstFreeNumber) + HierarchyConfig.Postfix;
+                tObj.add(tImmObj);
+                tMeshParent = tImmObj;
+            }
+            HierarchyConfig.FirstFreeNumber++;
 
         } else {
             console.log(HierarchyConfig);

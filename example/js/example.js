@@ -626,8 +626,9 @@ bp_example_init_3droom = function(renderer, threeScene, firstfree) {
   BP3D.Core.Configuration.setValue(BP3D.Core.configWallHeight, 2.5);
   BP3D.Core.Configuration.setValue(BP3D.Core.configWallThickness, 0.1);
   BP3D.Three.HierarchyConfig.CreateHierarchy = true;
-  BP3D.Three.HierarchyConfig.Prefix = "wallo_";
-  BP3D.Three.HierarchyConfig.Postfix = "wl";
+  BP3D.Three.HierarchyConfig.PrefixLevel = true;
+  BP3D.Three.HierarchyConfig.Prefix = "t";
+  BP3D.Three.HierarchyConfig.Postfix = "__.";
   BP3D.Three.HierarchyConfig.FirstFreeNumber = firstfree;
 
 
