@@ -4,7 +4,7 @@
 
 module BP3D.Three {
 
-    export var CreateHierarchy = true; //false;
+    export var CreateHierarchy = false; // false is traditional way, putting all meshes right into Three.scene
     export var Edge = function (scene: BP3D.Model.Scene, edge: BP3D.Model.HalfEdge, controls) {
      
     var scope = this;
