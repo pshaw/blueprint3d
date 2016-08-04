@@ -108,8 +108,8 @@ module BP3D.Model {
      * @param end he end corner.
      * @returns The new wall.
      */
-    public newWall(start: Corner, end: Corner): Wall {
-      var wall = new Wall(start, end);
+    public newWall(start: Corner, end: Corner, height: number = -1): Wall {
+      var wall = new Wall(start, end, height);
       this.walls.push(wall)
       var scope = this;
       wall.fireOnDelete(() => {
@@ -230,8 +230,12 @@ module BP3D.Model {
       }
       var scope = this;
       floorplan.walls.forEach((wall) => {
+          var tWallHeight = -1;
+          if (wall.height) {
+              tWallHeight = wall.height; 	
+          }
         var newWall = scope.newWall(
-          corners[wall.corner1], corners[wall.corner2]);
+          corners[wall.corner1], corners[wall.corner2], tWallHeight);
         if (wall.frontTexture) {
           newWall.frontTexture = wall.frontTexture;
         }

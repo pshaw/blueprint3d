@@ -2,8 +2,8 @@
 /// <reference path="../core/utils.ts" />
 
 module BP3D.Three {
-  export var Floor = function (scene, room) {
-
+    export var Floor = function (scene: BP3D.Model.Scene, room: BP3D.Model.Room) {
+    
     var scope = this;
 
     this.room = room;
