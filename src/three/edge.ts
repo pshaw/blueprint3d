@@ -5,7 +5,7 @@
 module BP3D.Three {
 
     export class HierarchyConfig {
-        static CreateHierarchy: boolean = true;
+        static CreateHierarchy: boolean = false;
         static Prefix: string = "wall_";
         static Postfix: string = "_wl";
         static PrefixLevel: boolean = true;
