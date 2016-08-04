@@ -597,7 +597,7 @@ var bp_example_init2d = function(){
  * Initialize! , no longer document ready
  */
 
-bp_example_init_3droom = function(renderer, threeScene) {
+bp_example_init_3droom = function(renderer, threeScene, firstfree) {
 
     var tFakeScene = new BP3D.Model.Scene();
     tFakeScene.scene = threeScene;
@@ -625,6 +625,10 @@ bp_example_init_3droom = function(renderer, threeScene) {
 
   BP3D.Core.Configuration.setValue(BP3D.Core.configWallHeight, 2.5);
   BP3D.Core.Configuration.setValue(BP3D.Core.configWallThickness, 0.1);
+  BP3D.Three.HierarchyConfig.CreateHierarchy = true;
+  BP3D.Three.HierarchyConfig.Prefix = "wallo_";
+  BP3D.Three.HierarchyConfig.Postfix = "wl";
+  BP3D.Three.HierarchyConfig.FirstFreeNumber = firstfree;
 
 
   // This serialization format needs work

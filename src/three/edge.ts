@@ -4,11 +4,17 @@
 
 module BP3D.Three {
 
-    export var CreateHierarchy = false; // false is traditional way, putting all meshes right into Three.scene
+    export class HierarchyConfig {
+        static CreateHierarchy: boolean = true;
+        static Prefix: string = "wall_";
+        static Postfix: string = "";
+        static FirstFreeNumber: number = 1;
+    }
+
     export var Edge = function (scene: BP3D.Model.Scene, edge: BP3D.Model.HalfEdge, controls) {
      
-    var scope = this;
-    var scene = scene;
+        var scope = this;
+        var scene: BP3D.Model.Scene = scene;
     var edge = edge;
     var controls = controls;
     var wall = edge.wall;
@@ -18,7 +24,7 @@ module BP3D.Three {
     var basePlanes = []; // always visible
     var texture = null;
 
-    var id = Date.now(); //for hierarchy
+    var id = null; //for hierarchy
 
     // new texture loader
     //var loader = new THREE.TextureLoader();
@@ -55,12 +61,14 @@ module BP3D.Three {
 
     function removeFromScene() {
         console.log("edge.ts: removeFromScene");
-        if (CreateHierarchy) {
-            console.log("should delete: " + "demowall_" + id);
-            var selectedObject = scene.getScene().getObjectByName("demowall_" + id);
+        if (HierarchyConfig.CreateHierarchy) {
+            console.log("hier should delete: " + scope.id);
+            var selectedObject = scene.getScene().getObjectByName(scope.id);
+            console.log(selectedObject);
             scene.getScene().remove(selectedObject);
             
         } else {
+            console.log("edge.ts " , "createHierarchy is false" );
 
             planes.forEach((plane) => {
                 scene.remove(plane);
@@ -77,22 +85,30 @@ module BP3D.Three {
         console.log("edge.ts : addToScene ");
         var tMeshParent: any = scene.getScene();    // should be Three.scene or three.Object3D
 
-        if (CreateHierarchy) {
+        if (HierarchyConfig.CreateHierarchy) {
             var tObj = new THREE.Object3D();
             scene.getScene().add(tObj);
-            tObj.name = "demowall_"+id;
-            tMeshParent = tObj;
+            var tId = HierarchyConfig.Prefix + (HierarchyConfig.FirstFreeNumber) + HierarchyConfig.Postfix;
+            HierarchyConfig.FirstFreeNumber++;
 
+
+            console.log("meshparent add id: ", tId);
+            tObj.name = tId;
+            tMeshParent = tObj;
+            scope.id = tId;
+
+        } else {
+            console.log(HierarchyConfig);
         }
         
 
         planes.forEach((plane) => {
-            console.log(plane);
+            //console.log(plane);
             tMeshParent.add(plane);
         });
         console.log("base:");
         basePlanes.forEach((plane) => {
-            console.log(plane);
+            //console.log(plane);
             tMeshParent.add(plane);
       });
       updateVisibility();
