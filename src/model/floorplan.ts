@@ -138,10 +138,12 @@ module BP3D.Model {
     public newCorner(x: number, y: number, id?: string): Corner {
       var corner = new Corner(this, x, y, id);
       this.corners.push(corner);
+      var scope = this;
       corner.fireOnDelete(() => {
-        this.removeCorner;
+        scope.removeCorner;
       });
       this.new_corner_callbacks.fire(corner);
+      this.update();
       return corner;
     }
 
