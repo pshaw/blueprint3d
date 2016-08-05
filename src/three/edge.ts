@@ -4,18 +4,18 @@
 
 module BP3D.Three {
 
-    export class HierarchyConfig {
-        static CreateHierarchy: boolean = false;
-        static Prefix: string = "wall_";
-        static Postfix: string = "_wl";
-        static PrefixLevel: boolean = true;
-        static FirstFreeNumber: number = 1;
-    }
+  export class HierarchyConfig {
+    static CreateHierarchy: boolean = false;
+    static Prefix: string = "wall_";
+    static Postfix: string = "_wl";
+    static PrefixLevel: boolean = true;
+    static FirstFreeNumber: number = 1;
+  }
 
-    export var Edge = function (scene: BP3D.Model.Scene, edge: BP3D.Model.HalfEdge, controls) {
+  export var Edge = function (scene: BP3D.Model.Scene, edge: BP3D.Model.HalfEdge, controls) {
      
-        var scope = this;
-        var scene: BP3D.Model.Scene = scene;
+    var scope = this;
+    var scene: BP3D.Model.Scene = scene;
     var edge = edge;
     var controls = controls;
     var wall = edge.wall;
@@ -53,7 +53,6 @@ module BP3D.Three {
     }
 
     function redraw() {
-      console.log("edge.ts: redraw");
       removeFromScene();
       updateTexture();
       updatePlanes();
@@ -61,63 +60,50 @@ module BP3D.Three {
     }
 
     function removeFromScene() {
-        console.log("edge.ts: removeFromScene");
-        if (HierarchyConfig.CreateHierarchy) {
-            console.log("hier should delete: " + scope.id);
-            var selectedObject = scene.getScene().getObjectByName(scope.id);
-            console.log(selectedObject);
-            scene.getScene().remove(selectedObject);
-            
-        } else {
-            console.log("edge.ts " , "createHierarchy is false" );
-
-            planes.forEach((plane) => {
-                scene.remove(plane);
-            });
-            basePlanes.forEach((plane) => {
-                scene.remove(plane);
-            });
-        }
+      if (HierarchyConfig.CreateHierarchy) {
+        var selectedObject = scene.getScene().getObjectByName(scope.id);
+        scene.getScene().remove(selectedObject);
+      } else {
+        planes.forEach((plane) => {
+          scene.remove(plane);
+        });
+        basePlanes.forEach((plane) => {
+          scene.remove(plane);
+        });
+      }
       planes = [];
       basePlanes = [];
     }
 
     function addToScene() {
-        console.log("edge.ts : addToScene ");
-        var tMeshParent: any = scene.getScene();    // should be Three.scene or three.Object3D
+ 
+      var tMeshParent: any = scene.getScene();    // should be Three.scene or three.Object3D
 
-        if (HierarchyConfig.CreateHierarchy) {
-            var tObj = new THREE.Object3D();
-            scene.getScene().add(tObj);
-            var tId = HierarchyConfig.Prefix + (HierarchyConfig.FirstFreeNumber) + (HierarchyConfig.PrefixLevel ? "" : HierarchyConfig.Postfix);
-            //HierarchyConfig.FirstFreeNumber++;
-            console.log("meshparent add id: ", tId);
-            tObj.name = tId;
-            tMeshParent = tObj;
-            scope.id = tId;
+      if (HierarchyConfig.CreateHierarchy) {
+        var tObj = new THREE.Object3D();
+        scene.getScene().add(tObj);
+        var tId = HierarchyConfig.Prefix + (HierarchyConfig.FirstFreeNumber) + (HierarchyConfig.PrefixLevel ? "" : HierarchyConfig.Postfix);
+        tObj.name = tId;
+        tMeshParent = tObj;
+        scope.id = tId;
 
-            if (HierarchyConfig.PrefixLevel == true)
-            {
-                var tImmObj = new THREE.Object3D();
-                tImmObj.name = HierarchyConfig.Prefix + (HierarchyConfig.FirstFreeNumber) + HierarchyConfig.Postfix;
-                tObj.add(tImmObj);
-                tMeshParent = tImmObj;
-            }
-            HierarchyConfig.FirstFreeNumber++;
-
-        } else {
-            console.log(HierarchyConfig);
+        if (HierarchyConfig.PrefixLevel == true) {
+          var tImmObj = new THREE.Object3D();
+          tImmObj.name = HierarchyConfig.Prefix + (HierarchyConfig.FirstFreeNumber) + HierarchyConfig.Postfix;
+          tObj.add(tImmObj);
+          tMeshParent = tImmObj;
         }
-        
+        HierarchyConfig.FirstFreeNumber++;
 
-        planes.forEach((plane) => {
-            //console.log(plane);
-            tMeshParent.add(plane);
-        });
-        console.log("base:");
-        basePlanes.forEach((plane) => {
-            //console.log(plane);
-            tMeshParent.add(plane);
+      } else {
+        console.log(HierarchyConfig);
+      }
+        
+      planes.forEach((plane) => {
+        tMeshParent.add(plane);
+      });
+      basePlanes.forEach((plane) => {
+        tMeshParent.add(plane);
       });
       updateVisibility();
     }
@@ -156,10 +142,10 @@ module BP3D.Three {
 
     function updateObjectVisibility() {
       wall.items.forEach((item) => {
-          (<BP3D.Items.WallItem>item).updateEdgeVisibility(scope.visible, front);
+        (<BP3D.Items.WallItem>item).updateEdgeVisibility(scope.visible, front);
       });
       wall.onItems.forEach((item) => {
-          (<BP3D.Items.WallItem>item).updateEdgeVisibility(scope.visible, front);
+        (<BP3D.Items.WallItem>item).updateEdgeVisibility(scope.visible, front);
       });
     }
 

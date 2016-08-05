@@ -52,7 +52,7 @@ module BP3D.Model {
 
     //create .blueprint3d file
     private exportSerialized(): string {
-        var items_arr: BP3D.SaveFormat.IItem[] = [];
+      var items_arr: BP3D.SaveFormat.IItem[] = [];
       var objects = this.scene.getItems();
       for (var i = 0; i < objects.length; i++) {
         var object = objects[i];

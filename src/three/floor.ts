@@ -92,45 +92,39 @@ module BP3D.Three {
     }
 
     this.addToScene = function () {
-		console.log("addfloortoscene");
-        if (HierarchyConfig.CreateHierarchy) {
-            var tObj = new THREE.Object3D();
-            scene.getScene().add(tObj);
-            var tId = HierarchyConfig.Prefix + (HierarchyConfig.FirstFreeNumber) + (HierarchyConfig.PrefixLevel ? "" : HierarchyConfig.Postfix);
-            //HierarchyConfig.FirstFreeNumber++;
-            console.log("create hierarchy floor add id: ", tId);
-            tObj.name = tId;
-            var tMeshParent = tObj;
-            scope.id = tId;
-
-            if (HierarchyConfig.PrefixLevel == true) {
-                var tImmObj = new THREE.Object3D();
-                tImmObj.name = HierarchyConfig.Prefix + (HierarchyConfig.FirstFreeNumber) + HierarchyConfig.Postfix;
-                tObj.add(tImmObj);
-                tMeshParent = tImmObj;
-            }
-            HierarchyConfig.FirstFreeNumber++;
-            tMeshParent.add(floorPlane);
-
+      if (HierarchyConfig.CreateHierarchy) {
+        var tObj = new THREE.Object3D();
+        scene.getScene().add(tObj);
+        var tId = HierarchyConfig.Prefix + (HierarchyConfig.FirstFreeNumber) + (HierarchyConfig.PrefixLevel ? "" : HierarchyConfig.Postfix);
+        tObj.name = tId;
+        var tMeshParent = tObj;
+        scope.id = tId;
+        if (HierarchyConfig.PrefixLevel == true) {
+          var tImmObj = new THREE.Object3D();
+          tImmObj.name = HierarchyConfig.Prefix + (HierarchyConfig.FirstFreeNumber) + HierarchyConfig.Postfix;
+          tObj.add(tImmObj);
+          tMeshParent = tImmObj;
         }
-        else {
-			console.log("floor: no create hierarchy");
-            scene.add(floorPlane);
-            //scene.add(roofPlane);
-            // hack so we can do intersect testing
-            scene.add(room.floorPlane);
-        }
+        HierarchyConfig.FirstFreeNumber++;
+        tMeshParent.add(floorPlane);
+      }
+      else {
+        scene.add(floorPlane);
+        // hack so we can do intersect testing
+		// Todo roofplane handling
+        scene.add(room.floorPlane);
+      }
     }
 
     this.removeFromScene = function () {
-        if (HierarchyConfig.CreateHierarchy) {
-            var selectedObject = scene.getScene().getObjectByName(scope.id);
-            console.log(selectedObject);
-            scene.getScene().remove(selectedObject);
-        } else {
-            scene.remove(floorPlane);
-            //scene.remove(roofPlane);
-            scene.remove(room.floorPlane);
+      if (HierarchyConfig.CreateHierarchy) {
+        var selectedObject = scene.getScene().getObjectByName(scope.id);
+        console.log(selectedObject);
+        scene.getScene().remove(selectedObject);
+      } else {
+        scene.remove(floorPlane);
+        //scene.remove(roofPlane);
+        scene.remove(room.floorPlane);
         }
     }
   }

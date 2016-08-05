@@ -12,8 +12,8 @@ module BP3D.Three {
     export var CmToWorld = 1;
 
     export var Main = function (model, element, canvasElement, opts, alreadyRenderer, alreadyScene: BP3D.Model.Scene) {
-      var scope = this;
-      var foreignRenderer = (alreadyRenderer != null);
+    var scope = this;
+    var foreignRenderer = (alreadyRenderer != null);
 
     var options = {
       resize: true,
@@ -174,41 +174,29 @@ module BP3D.Three {
 
     }
     function shouldRender() {
-
-//        if (true || (hasOwnRenderer == true))
-//        {
-
-            // Do we need to draw a new frame
-            if (scope.controls.needsUpdate || controller.needsUpdate || needsUpdate || model.scene.needsUpdate) {
-                scope.controls.needsUpdate = false;
-                controller.needsUpdate = false;
-                needsUpdate = false;
-                model.scene.needsUpdate = false;
-                return true;
-            }
-            else {
-                return false;
-            }
- //       }else
-//        {
-  //              return false;
-  //      }
+       // Do we need to draw a new frame
+       if (scope.controls.needsUpdate || controller.needsUpdate || needsUpdate || model.scene.needsUpdate) {
+          scope.controls.needsUpdate = false;
+          controller.needsUpdate = false;
+          needsUpdate = false;
+          model.scene.needsUpdate = false;
+          return true;
+        } else {
+          return false;
+        }
     }
 
     function render() {
-
-        if (!foreignRenderer) {
-          spin();
-          if (shouldRender()) {
-            renderer.clear();
-            renderer.render(scene.getScene(), camera);
-            renderer.clearDepth();
-            renderer.render(hud.getScene(), camera);
-          }
-          lastRender = Date.now();
-        
-        };
-
+      if (!foreignRenderer) {
+        spin();
+        if (shouldRender()) {
+          renderer.clear();
+          renderer.render(scene.getScene(), camera);
+          renderer.clearDepth();
+          renderer.render(hud.getScene(), camera);
+        }
+        lastRender = Date.now();
+      };
     }
 
     function animate() {

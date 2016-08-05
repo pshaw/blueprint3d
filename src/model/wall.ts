@@ -66,10 +66,10 @@ module BP3D.Model {
      * @param end End corner.
      */
     constructor(private start: Corner, private end: Corner, height:number = -1) {
-        this.id = this.getUuid();
-        if (height > -1) {
-            this.height = height;
-        }
+      this.id = this.getUuid();
+      if (height > -1) {
+        this.height = height;
+      }
 
       this.start.attachStart(this)
       this.end.attachEnd(this);
