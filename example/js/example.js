@@ -508,7 +508,10 @@ var mainControls = function(blueprint3d) {
 
 // $(document).ready(function() {
 
-var bp_example_init = function(renderer, scene) {
+var bp_example_init = function (renderer, scene) {
+
+   
+
   // main setup
   var opts = {
     floorplannerElement: 'floorplanner-canvas',
@@ -570,6 +573,7 @@ var bp_example_init2d = function(){
 
   }
  // var blueprint3d = new BP3D.Blueprint3d(opts);
+
 
 
   var nmModel = new BP3D.Model.Model(opts.textureDir);
@@ -639,8 +643,12 @@ bp_example_init_3droom = function(renderer, threeScene, firstfree) {
   var cameraButtons = new CameraButtons(blueprint3d);
   mainControls(blueprint3d);
 
-  BP3D.Core.Configuration.setValue(BP3D.Core.configWallHeight, 2.5);
-  BP3D.Core.Configuration.setValue(BP3D.Core.configWallThickness, 0.1);
+ // BP3D.Core.Configuration.setValue(BP3D.Core.configWallHeight, 2.5);
+  //BP3D.Core.Configuration.setValue(BP3D.Core.configWallThickness, 0.1);
+
+  BP3D.Three.CmToWorld = 0.01;
+
+
   BP3D.Three.HierarchyConfig.CreateHierarchy = true;
   BP3D.Three.HierarchyConfig.PrefixLevel = true;
   BP3D.Three.HierarchyConfig.Prefix = "t";
@@ -653,9 +661,9 @@ bp_example_init_3droom = function(renderer, threeScene, firstfree) {
  // blueprint3d.model.loadSerialized('{"floorplan":{"corners":{"f90da5e3-9e0e-eba7-173d-eb0b071e838e":{"x":204.85099999999989,"y":289.052},"da026c08-d76a-a944-8e7b-096b752da9ed":{"x":672.2109999999999,"y":289.052},"4e3d65cb-54c0-0681-28bf-bddcc7bdb571":{"x":672.2109999999999,"y":-178.308},"71d4f128-ae80-3d58-9bd2-711c6ce6cdf2":{"x":204.85099999999989,"y":-178.308}},"walls":[{"corner1":"71d4f128-ae80-3d58-9bd2-711c6ce6cdf2","corner2":"f90da5e3-9e0e-eba7-173d-eb0b071e838e","frontTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0},"backTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0}},{"corner1":"f90da5e3-9e0e-eba7-173d-eb0b071e838e","corner2":"da026c08-d76a-a944-8e7b-096b752da9ed","frontTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0},"backTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0}},{"corner1":"da026c08-d76a-a944-8e7b-096b752da9ed","corner2":"4e3d65cb-54c0-0681-28bf-bddcc7bdb571","frontTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0},"backTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0}},{"corner1":"4e3d65cb-54c0-0681-28bf-bddcc7bdb571","corner2":"71d4f128-ae80-3d58-9bd2-711c6ce6cdf2","frontTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0},"backTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0}}],"wallTextures":[],"floorTextures":{},"newFloorTextures":{}},"items":[]}');
   // meter for inserting into foreign scenegraph
   //blueprint3d.model.loadSerialized('{"floorplan":{"corners":{"f90da5e3-9e0e-eba7-173d-eb0b071e838e":{"x":-2,"y":-2},"da026c08-d76a-a944-8e7b-096b752da9ed":{"x":2,"y":-2},"4e3d65cb-54c0-0681-28bf-bddcc7bdb571":{"x":2,"y":2},"71d4f128-ae80-3d58-9bd2-711c6ce6cdf2":{"x":-2,"y":2}},"walls":[{"height":1.5,"corner1":"71d4f128-ae80-3d58-9bd2-711c6ce6cdf2","corner2":"f90da5e3-9e0e-eba7-173d-eb0b071e838e","frontTexture":{"url":"rooms/textures/light_brick.jpg","stretch":false,"scale":100},"backTexture":{"url":"rooms/textures/light_brick.jpg","stretch":true,"scale":0}},{"corner1":"f90da5e3-9e0e-eba7-173d-eb0b071e838e","corner2":"da026c08-d76a-a944-8e7b-096b752da9ed","frontTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0},"backTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0}},{"corner1":"da026c08-d76a-a944-8e7b-096b752da9ed","corner2":"4e3d65cb-54c0-0681-28bf-bddcc7bdb571","frontTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0},"backTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0}},{"corner1":"4e3d65cb-54c0-0681-28bf-bddcc7bdb571","corner2":"71d4f128-ae80-3d58-9bd2-711c6ce6cdf2","frontTexture":{"url":"rooms/textures/light_brick.jpg","stretch":true,"scale":0},"backTexture":{"url":"rooms/textures/light_brick.jpg","stretch":true,"scale":0}}],"wallTextures":[],"floorTextures":{},"newFloorTextures":{}},"items":[]}');
-  blueprint3d.model.loadSerialized('{"floorplan":{"corners":{"f90da5e3-9e0e-eba7-173d-eb0b071e838e":{"x":-2,"y":-2},"da026c08-d76a-a944-8e7b-096b752da9ed":{"x":2,"y":-2},"4e3d65cb-54c0-0681-28bf-bddcc7bdb571":{"x":2,"y":2},'
-+ '"71d4f128-ae80-3d58-9bd2-711c6ce6cdf2":{"x":-2,"y":2}},"walls":[{"height":1.5,"corner1":"71d4f128-ae80-3d58-9bd2-711c6ce6cdf2","corner2":"f90da5e3-9e0e-eba7-173d-eb0b071e838e",' +
-'"frontTexture":{"url":"rooms/textures/light_brick.jpg","stretch":false,"scale":0.8},"backTexture":{"url":"rooms/textures/light_brick.jpg","stretch":false,"scale":0.8}},'
+  blueprint3d.model.loadSerialized('{"floorplan":{"corners":{"f90da5e3-9e0e-eba7-173d-eb0b071e838e":{"x":-200,"y":-200},"da026c08-d76a-a944-8e7b-096b752da9ed":{"x":200,"y":-200},"4e3d65cb-54c0-0681-28bf-bddcc7bdb571":{"x":200,"y":200},'
++ '"71d4f128-ae80-3d58-9bd2-711c6ce6cdf2":{"x":-200,"y":200}},"walls":[{"height":100.5,"corner1":"71d4f128-ae80-3d58-9bd2-711c6ce6cdf2","corner2":"f90da5e3-9e0e-eba7-173d-eb0b071e838e",' +
+'"frontTexture":{"url":"rooms/textures/light_brick.jpg","stretch":false,"scale":100},"backTexture":{"url":"rooms/textures/light_brick.jpg","stretch":false,"scale":100}},'
 + '{"corner1":"f90da5e3-9e0e-eba7-173d-eb0b071e838e","corner2":"da026c08-d76a-a944-8e7b-096b752da9ed","frontTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0},'
 + '"backTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0}},{"corner1":"da026c08-d76a-a944-8e7b-096b752da9ed","corner2":"4e3d65cb-54c0-0681-28bf-bddcc7bdb571",'
 + '"frontTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0},"backTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0}},'
@@ -668,7 +676,7 @@ bp_example_init_3droom = function(renderer, threeScene, firstfree) {
     // '"f90da5e3-9e0e-eba7-173d-eb0b071e838e,da026c08-d76a-a944-8e7b-096b752da9ed,4e3d65cb-54c0-0681-28bf-bddcc7bdb571,71d4f128-ae80-3d58-9bd2-711c6ce6cdf2"' +
 '"4e3d65cb-54c0-0681-28bf-bddcc7bdb571,71d4f128-ae80-3d58-9bd2-711c6ce6cdf2,da026c08-d76a-a944-8e7b-096b752da9ed,f90da5e3-9e0e-eba7-173d-eb0b071e838e"'+
 
-':{"url":"rooms/textures/light_fine_wood.jpg", "scale":3}}'
+':{"url":"rooms/textures/light_fine_wood.jpg", "scale":300}}'
  
 
 

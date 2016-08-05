@@ -8,6 +8,9 @@
 /// <reference path="hud.ts" />
 
 module BP3D.Three {
+
+    export var CmToWorld = 1;
+
     export var Main = function (model, element, canvasElement, opts, alreadyRenderer, alreadyScene: BP3D.Model.Scene) {
       var scope = this;
       var foreignRenderer = (alreadyRenderer != null);
