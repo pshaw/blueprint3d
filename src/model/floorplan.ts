@@ -195,7 +195,7 @@ module BP3D.Model {
         corners: {},
         walls: [],
         wallTextures: [],
-        floorTextures: {},
+        floorTextures: [],
         newFloorTextures: {}
       }
 
@@ -214,7 +214,7 @@ module BP3D.Model {
           'backTexture': wall.backTexture
         });
       });
-      floorplan.newFloorTextures = this.floorTextures;
+      floorplan.newFloorTextures = <any> this.floorTextures;
       return floorplan;
     }
 
@@ -245,6 +245,7 @@ module BP3D.Model {
         }
       });
 
+      console.log(JSON.stringify(floorplan.newFloorTextures));
       if ('newFloorTextures' in floorplan) {
         this.floorTextures = floorplan.newFloorTextures;
       }

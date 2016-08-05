@@ -11,8 +11,13 @@ module BP3D.SaveFormat {
 		corners: { [corneruid: string]: ICornerPos2D; };
 		walls: IWall[];
 		wallTextures: any[];    // ?
-		floorTextures: any;     // ?
-		newFloorTextures: any;  // ?
+		floorTextures: any[];     // real export creates [] here
+		newFloorTextures: { [floordesc: string]: INewFloorTexture; };  // floordesc is a comma seperatedlist of corneruids just concatenated
+	}
+
+	export interface INewFloorTexture {
+			url: string; // absolute or relative jpg or png url
+			scale: number;
 	}
 
 	export interface ICornerPos2D {
