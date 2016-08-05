@@ -15,7 +15,7 @@ module BP3D.IO {
   /** Structured floorplan. */
   export interface IFloorPlan {
     /** The corners. */
-    corners: { [corneruid: string]: ICornerPos2D; };
+    corners: { [uid: string]: ICornerPos2D; };
 
     /** The walls. */
     walls: IWall[];
@@ -27,7 +27,7 @@ module BP3D.IO {
     floorTextures: any[];
 
     /** Comma separated, alphabetically sorted list of corner uids, just concatenated. */
-    newFloorTextures: { [floordesc: string]: INewFloorTexture; };
+    newFloorTextures: { [floorDesc: string]: INewFloorTexture; };
   }
 
   /**  */
