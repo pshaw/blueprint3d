@@ -12,7 +12,7 @@ module BP3D.SaveFormat {
 		walls: IWall[];
 		wallTextures: any[];    // ?
 		floorTextures: any[];     // real export creates [] here
-		newFloorTextures: { [floordesc: string]: INewFloorTexture; };  // floordesc is a comma seperatedlist of corneruids just concatenated
+		newFloorTextures: { [floordesc: string]: INewFloorTexture; };  // floordesc is a comma seperatedlist of (alphabetically sorted !!!) corneruids just concatenated
 	}
 
 	export interface INewFloorTexture {
