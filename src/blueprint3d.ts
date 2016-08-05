@@ -19,6 +19,13 @@ module BP3D {
 
     /** The texture directory. */
     textureDir?: string;
+
+    /** Use an existing renderer */
+    alreadyRenderer?: any;
+
+    /** Add graphics into an already existing threejs scene */
+    alreadyScene?: any;
+
   }
 
   /** Blueprint3D core application. */
@@ -34,8 +41,8 @@ module BP3D {
      * @param options The initialization options.
      */
     constructor(options: Options) {
-      this.model = new Model.Model(options.textureDir);
-      this.three = new Three.Main(this.model, options.threeElement, options.threeCanvasElement, {});
+        this.model = new Model.Model(options.textureDir);
+        this.three = new BP3D.Three.Main(this.model, options.threeElement, options.threeCanvasElement, {}, options.alreadyRenderer, options.alreadyScene); 
 
       if (!options.widget) {
         this.floorplanner = new Floorplanner.Floorplanner(options.floorplannerElement, this.model.floorplan);

@@ -89,7 +89,7 @@ namespace BP3D.Items {
     }
 
     /** */
-    private updateEdgeVisibility(visible: boolean, front: boolean) {
+    public updateEdgeVisibility(visible: boolean, front: boolean) {
       if (front) {
         this.frontVisible = visible;
       } else {
