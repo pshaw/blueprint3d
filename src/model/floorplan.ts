@@ -5,6 +5,7 @@
 /// <reference path="corner.ts" />
 /// <reference path="room.ts" />
 /// <reference path="half_edge.ts" />
+/// <reference path="save_format.ts" />
 
 module BP3D.Model {
   /** */
@@ -190,7 +191,7 @@ module BP3D.Model {
     // import and export -- cleanup
 
     public saveFloorplan() {
-      var floorplan = {
+      var floorplan:BP3D.SaveFormat.IFloorPlan = {
         corners: {},
         walls: [],
         wallTextures: [],
@@ -217,7 +218,7 @@ module BP3D.Model {
       return floorplan;
     }
 
-    public loadFloorplan(floorplan) {
+    public loadFloorplan(floorplan: BP3D.SaveFormat.IFloorPlan) {
       this.reset();
 
       var corners = {};
