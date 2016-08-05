@@ -1,11 +1,11 @@
 /// <reference path="../../lib/jQuery.d.ts" />
 /// <reference path="../../lib/three.d.ts" />
 /// <reference path="../core/utils.ts" />
+/// <reference path="../io/format.ts" />
 /// <reference path="wall.ts" />
 /// <reference path="corner.ts" />
 /// <reference path="room.ts" />
 /// <reference path="half_edge.ts" />
-/// <reference path="save_format.ts" />
 
 module BP3D.Model {
   /** */
@@ -193,7 +193,7 @@ module BP3D.Model {
     // import and export -- cleanup
 
     public saveFloorplan() {
-      var floorplan:BP3D.SaveFormat.IFloorPlan = {
+      var floorplan:BP3D.IO.IFloorPlan = {
         corners: {},
         walls: [],
         wallTextures: [],
@@ -220,7 +220,7 @@ module BP3D.Model {
       return floorplan;
     }
 
-    public loadFloorplan(floorplan: BP3D.SaveFormat.IFloorPlan) {
+    public loadFloorplan(floorplan: BP3D.IO.IFloorPlan) {
       this.reset();
 
       var tThick = BP3D.Core.Configuration.getNumericValue(BP3D.Core.configWallThickness);

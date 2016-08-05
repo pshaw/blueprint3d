@@ -1,6 +1,6 @@
 /// <reference path="../../lib/three.d.ts" />
 /// <reference path="../../lib/jQuery.d.ts" />
-/// <reference path="save_format.ts" />
+/// <reference path="../io/format.ts" />
 /// <reference path="floorplan.ts" />
 /// <reference path="scene.ts" />
 
@@ -41,7 +41,7 @@ module BP3D.Model {
       // TODO: a much better serialization format.
       this.roomLoadingCallbacks.fire();
 
-      var data: BP3D.SaveFormat.ISaveFormat = JSON.parse(json);
+      var data: BP3D.IO.IFormat = JSON.parse(json);
       this.newRoom(
         data.floorplan,
         data.items
@@ -52,7 +52,7 @@ module BP3D.Model {
 
     //create .blueprint3d file
     private exportSerialized(): string {
-      var items_arr: BP3D.SaveFormat.IItem[] = [];
+      var items_arr: BP3D.IO.IItem[] = [];
       var objects = this.scene.getItems();
       for (var i = 0; i < objects.length; i++) {
         var object = objects[i];
@@ -71,7 +71,7 @@ module BP3D.Model {
         };
       }
 
-      var room: BP3D.SaveFormat.ISaveFormat = {
+      var room: BP3D.IO.IFormat = {
         floorplan: (this.floorplan.saveFloorplan()),
         items: items_arr
       };
@@ -79,7 +79,7 @@ module BP3D.Model {
       return JSON.stringify(room);
     }
 
-    private newRoom(floorplan: SaveFormat.IFloorPlan, items: SaveFormat.IItem[]) {
+    private newRoom(floorplan: IO.IFloorPlan, items: IO.IItem[]) {
       this.scene.clearItems();
       this.floorplan.loadFloorplan(floorplan);
       items.forEach((item) => {
