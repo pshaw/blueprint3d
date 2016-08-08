@@ -2,7 +2,7 @@
 
 This repository includes an example application built using blueprint3d:
 
-### http://furnishup.github.io/blueprint3d/example/
+### http://furnishup.github.io/blueprint3d/examples/original/
 
 ## What is this?
 
@@ -80,7 +80,7 @@ The `src` directory contains the core of the project. Here is a description of t
 `three` - 3D view/controller for viewing and modifying item placement
 
 
-### `example/` Directory
+### `examples/` Directory
 
 The example directory contains an application built using the core blueprint3d javascript building blocks. It adds html, css, models, textures, and more javascript to tie everything together.
 
