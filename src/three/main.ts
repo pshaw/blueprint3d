@@ -8,8 +8,12 @@
 /// <reference path="hud.ts" />
 
 module BP3D.Three {
-  export var Main = function (model, element, canvasElement, opts) {
+
+    export var CmToWorld = 1;
+
+    export var Main = function (model, element, canvasElement, opts, alreadyRenderer, alreadyScene: BP3D.Model.Scene) {
     var scope = this;
+    var foreignRenderer = (alreadyRenderer != null);
 
     var options = {
       resize: true,
@@ -27,8 +31,11 @@ module BP3D.Three {
       }
     }
 
-    var scene = model.scene;
+    var scene: BP3D.Model.Scene = model.scene;
 
+    if (alreadyScene != null) {
+        scene = alreadyScene;         
+    }
     var model = model;
     this.element = $(element);
     var domElement;
@@ -73,7 +80,7 @@ module BP3D.Three {
         preserveDrawingBuffer: true // required to support .toDataURL()
       });
       renderer.autoClear = false,
-        renderer.shadowMapEnabled = true;
+      renderer.shadowMapEnabled = true;
       renderer.shadowMapSoft = true;
       renderer.shadowMapType = THREE.PCFSoftShadowMap;
 
@@ -98,7 +105,9 @@ module BP3D.Three {
       scope.centerCamera();
       model.floorplan.fireOnUpdatedRooms(scope.centerCamera);
 
-      var lights = new Three.Lights(scene, model.floorplan);
+      if (!alreadyRenderer) {
+          var lights = new Three.Lights(scene, model.floorplan);
+      }
 
       floorplan = new Three.Floorplan(scene,
         model.floorplan, scope.controls);
@@ -171,15 +180,17 @@ module BP3D.Three {
     }
 
     function render() {
-      spin();
-      if (shouldRender()) {
-        renderer.clear();
-        renderer.render(scene.getScene(), camera);
-        renderer.clearDepth();
-        renderer.render(hud.getScene(), camera);
-      }
-      lastRender = Date.now();
-    };
+      if (!foreignRenderer) {
+        spin();
+        if (shouldRender()) {
+          renderer.clear();
+          renderer.render(scene.getScene(), camera);
+          renderer.clearDepth();
+          renderer.render(hud.getScene(), camera);
+        }
+        lastRender = Date.now();
+      };
+    }
 
     function animate() {
       var delay = 50;
