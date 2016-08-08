@@ -9,7 +9,7 @@
 
 module BP3D.Model {
   /** */
-    const defaultFloorPlanTolerance = 10.0;
+  const defaultFloorPlanTolerance = 10.0;
 
   /** 
    * A Floorplan represents a number of Walls, Corners and Rooms.

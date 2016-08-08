@@ -29,7 +29,7 @@ module BP3D.Three {
       scope.edges = [];
 
       // draw floors
-     scope.floorplan.getRooms().forEach((room) => {
+      scope.floorplan.getRooms().forEach((room) => {
         var threeFloor = new Three.Floor(scene, room);
         scope.floors.push(threeFloor);
         threeFloor.addToScene();
