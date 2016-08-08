@@ -86,8 +86,8 @@ module BP3D.Model {
         var position = new THREE.Vector3(
           item.xpos, item.ypos, item.zpos);
         var metadata = {
-            itemName: item.item_name,
-            resizable: (item.resizable != undefined ? item.resizable : true),
+          itemName: item.item_name,
+          resizable: (item.resizable != undefined ? item.resizable : true),
           itemType: item.item_type,
           modelUrl: item.model_url
         };
