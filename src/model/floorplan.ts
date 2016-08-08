@@ -139,9 +139,8 @@ module BP3D.Model {
     public newCorner(x: number, y: number, id?: string): Corner {
       var corner = new Corner(this, x, y, id);
       this.corners.push(corner);
-      var scope = this;
       corner.fireOnDelete(() => {
-        scope.removeCorner(corner);
+        this.removeCorner(corner);
       });
       this.new_corner_callbacks.fire(corner);
       this.update();
@@ -236,14 +235,14 @@ module BP3D.Model {
       }
       var scope = this;
       floorplan.walls.forEach((wall) => {
-        var tWallHeight = -1;
+        var wallHeight = -1;
         if (wall.height) {
-          tWallHeight = wall.height * BP3D.Three.CmToWorld;
+          wallHeight = wall.height * BP3D.Three.CmToWorld;
         } else {
-          tWallHeight = BP3D.Core.Configuration.getNumericValue(BP3D.Core.configWallHeight) * BP3D.Three.CmToWorld; 
+          wallHeight = BP3D.Core.Configuration.getNumericValue(BP3D.Core.configWallHeight) * BP3D.Three.CmToWorld; 
         }
         var newWall = scope.newWall(
-          corners[wall.corner1], corners[wall.corner2], tWallHeight);
+          corners[wall.corner1], corners[wall.corner2], wallHeight);
         if (wall.frontTexture) {
           newWall.frontTexture = {
             url : wall.frontTexture.url,
