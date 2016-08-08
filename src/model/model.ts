@@ -1,5 +1,6 @@
 /// <reference path="../../lib/three.d.ts" />
 /// <reference path="../../lib/jQuery.d.ts" />
+/// <reference path="../io/format.ts" />
 /// <reference path="floorplan.ts" />
 /// <reference path="scene.ts" />
 
@@ -13,7 +14,7 @@ module BP3D.Model {
     public floorplan: Floorplan;
 
     /** */
-    public scene: Scene;
+    public scene: BP3D.Model.Scene;
 
     /** */
     private roomLoadingCallbacks = $.Callbacks();
@@ -40,7 +41,7 @@ module BP3D.Model {
       // TODO: a much better serialization format.
       this.roomLoadingCallbacks.fire();
 
-      var data = JSON.parse(json)
+      var data: BP3D.IO.IFormat = JSON.parse(json);
       this.newRoom(
         data.floorplan,
         data.items
@@ -49,8 +50,9 @@ module BP3D.Model {
       this.roomLoadedCallbacks.fire();
     }
 
+    //create .blueprint3d file
     private exportSerialized(): string {
-      var items_arr = [];
+      var items_arr: BP3D.IO.IItem[] = [];
       var objects = this.scene.getItems();
       for (var i = 0; i < objects.length; i++) {
         var object = objects[i];
@@ -69,7 +71,7 @@ module BP3D.Model {
         };
       }
 
-      var room = {
+      var room: BP3D.IO.IFormat = {
         floorplan: (this.floorplan.saveFloorplan()),
         items: items_arr
       };
@@ -77,15 +79,15 @@ module BP3D.Model {
       return JSON.stringify(room);
     }
 
-    private newRoom(floorplan: string, items) {
+    private newRoom(floorplan: IO.IFloorPlan, items: IO.IItem[]) {
       this.scene.clearItems();
       this.floorplan.loadFloorplan(floorplan);
       items.forEach((item) => {
         var position = new THREE.Vector3(
           item.xpos, item.ypos, item.zpos);
         var metadata = {
-          itemName: item.item_name,
-          resizable: item.resizable,
+            itemName: item.item_name,
+            resizable: (item.resizable != undefined ? item.resizable : true),
           itemType: item.item_type,
           modelUrl: item.model_url
         };

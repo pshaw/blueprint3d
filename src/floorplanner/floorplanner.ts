@@ -1,5 +1,7 @@
 /// <reference path="../../lib/jQuery.d.ts" />
+/// <reference path="../model/corner.ts" />
 /// <reference path="../model/floorplan.ts" />
+/// <reference path="../model/wall.ts" />
 /// <reference path="floorplanner_view.ts" />
 
 module BP3D.Floorplanner {
@@ -15,25 +17,25 @@ module BP3D.Floorplanner {
     public mode = 0;
 
     /** */
-    public activeWall = null;
+    public activeWall: Model.Wall = null;
 
     /** */
-    public activeCorner = null;
+    public activeCorner: Model.Corner = null;
 
     /** */
-    public originX = 0;
+    public originX: number = 0;
 
     /** */
-    public originY = 0;
+    public originY: number = 0;
 
     /** drawing state */
-    public targetX = 0;
+    public targetX: number = 0;
 
     /** drawing state */
-    public targetY = 0;
+    public targetY: number = 0;
 
     /** drawing state */
-    public lastNode = null;
+    public lastNode: Model.Corner = null;
 
     /** */
     private wallWidth: number;
@@ -48,28 +50,28 @@ module BP3D.Floorplanner {
     private view: FloorplannerView;
 
     /** */
-    private mouseDown = false;
+    private mouseDown: boolean = false;
 
     /** */
-    private mouseMoved = false;
+    private mouseMoved: boolean = false;
 
     /** in ThreeJS coords */
-    private mouseX = 0;
+    private mouseX: number = 0;
 
     /** in ThreeJS coords */
-    private mouseY = 0;
+    private mouseY: number = 0;
 
     /** in ThreeJS coords */
-    private rawMouseX = 0;
+    private rawMouseX: number = 0;
 
     /** in ThreeJS coords */
-    private rawMouseY = 0;
+    private rawMouseY: number = 0;
 
     /** mouse position at last click */
-    private lastX = 0;
+    private lastX: number = 0;
 
     /** mouse position at last click */
-    private lastY = 0;
+    private lastY: number = 0;
 
     /** */
     private cmPerPixel: number;

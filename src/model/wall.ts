@@ -65,8 +65,11 @@ module BP3D.Model {
      * @param start Start corner.
      * @param end End corner.
      */
-    constructor(private start: Corner, private end: Corner) {
+    constructor(private start: Corner, private end: Corner, height:number = -1) {
       this.id = this.getUuid();
+      if (height > -1) {
+        this.height = height;
+      }
 
       this.start.attachStart(this)
       this.end.attachEnd(this);
@@ -82,7 +85,7 @@ module BP3D.Model {
       this.orphan = false;
     }
 
-    private snapToAxis(tolerance: number) {
+    public snapToAxis(tolerance: number) {
       // order here is important, but unfortunately arbitrary
       this.start.snapToAxis(tolerance);
       this.end.snapToAxis(tolerance);
@@ -108,7 +111,7 @@ module BP3D.Model {
       this.action_callbacks.fire(action)
     }
 
-    private relativeMove(dx: number, dy: number) {
+    public relativeMove(dx: number, dy: number) {
       this.start.relativeMove(dx, dy);
       this.end.relativeMove(dx, dy);
     }

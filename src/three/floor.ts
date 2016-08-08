@@ -2,8 +2,8 @@
 /// <reference path="../core/utils.ts" />
 
 module BP3D.Three {
-  export var Floor = function (scene, room) {
-
+    export var Floor = function (scene: BP3D.Model.Scene, room: BP3D.Model.Room) {
+    
     var scope = this;
 
     this.room = room;
@@ -11,6 +11,7 @@ module BP3D.Three {
 
     var floorPlane = null;
     var roofPlane = null;
+    var id = null;
 
     init();
 
@@ -30,6 +31,9 @@ module BP3D.Three {
     function buildFloor() {
       var textureSettings = scope.room.getTexture();
       // setup texture
+      // new texture loader
+      //var loader = new THREE.TextureLoader();
+      //var floorTexture = loader.load(textureSettings.url);
       var floorTexture = THREE.ImageUtils.loadTexture(textureSettings.url);
       floorTexture.wrapS = THREE.RepeatWrapping;
       floorTexture.wrapT = THREE.RepeatWrapping;
@@ -88,16 +92,40 @@ module BP3D.Three {
     }
 
     this.addToScene = function () {
-      scene.add(floorPlane);
-      //scene.add(roofPlane);
-      // hack so we can do intersect testing
-      scene.add(room.floorPlane);
+      if (HierarchyConfig.CreateHierarchy) {
+        var tObj = new THREE.Object3D();
+        scene.getScene().add(tObj);
+        var tId = HierarchyConfig.Prefix + (HierarchyConfig.FirstFreeNumber) + (HierarchyConfig.PrefixLevel ? "" : HierarchyConfig.Postfix);
+        tObj.name = tId;
+        var tMeshParent = tObj;
+        scope.id = tId;
+        if (HierarchyConfig.PrefixLevel == true) {
+          var tImmObj = new THREE.Object3D();
+          tImmObj.name = HierarchyConfig.Prefix + (HierarchyConfig.FirstFreeNumber) + HierarchyConfig.Postfix;
+          tObj.add(tImmObj);
+          tMeshParent = tImmObj;
+        }
+        HierarchyConfig.FirstFreeNumber++;
+        tMeshParent.add(floorPlane);
+      }
+      else {
+        scene.add(floorPlane);
+        // hack so we can do intersect testing
+		// Todo roofplane handling
+        scene.add(room.floorPlane);
+      }
     }
 
     this.removeFromScene = function () {
-      scene.remove(floorPlane);
-      //scene.remove(roofPlane);
-      scene.remove(room.floorPlane);
+      if (HierarchyConfig.CreateHierarchy) {
+        var selectedObject = scene.getScene().getObjectByName(scope.id);
+        console.log(selectedObject);
+        scene.getScene().remove(selectedObject);
+      } else {
+        scene.remove(floorPlane);
+        //scene.remove(roofPlane);
+        scene.remove(room.floorPlane);
+        }
     }
   }
 }

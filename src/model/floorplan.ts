@@ -1,6 +1,7 @@
 /// <reference path="../../lib/jQuery.d.ts" />
 /// <reference path="../../lib/three.d.ts" />
 /// <reference path="../core/utils.ts" />
+/// <reference path="../io/format.ts" />
 /// <reference path="wall.ts" />
 /// <reference path="corner.ts" />
 /// <reference path="room.ts" />
@@ -8,7 +9,7 @@
 
 module BP3D.Model {
   /** */
-  const defaultFloorPlanTolerance = 10.0;
+    const defaultFloorPlanTolerance = 10.0;
 
   /** 
    * A Floorplan represents a number of Walls, Corners and Rooms.
@@ -108,8 +109,8 @@ module BP3D.Model {
      * @param end he end corner.
      * @returns The new wall.
      */
-    public newWall(start: Corner, end: Corner): Wall {
-      var wall = new Wall(start, end);
+    public newWall(start: Corner, end: Corner, height: number = -1): Wall {
+      var wall = new Wall(start, end, height);
       this.walls.push(wall)
       var scope = this;
       wall.fireOnDelete(() => {
@@ -138,10 +139,12 @@ module BP3D.Model {
     public newCorner(x: number, y: number, id?: string): Corner {
       var corner = new Corner(this, x, y, id);
       this.corners.push(corner);
+      var scope = this;
       corner.fireOnDelete(() => {
-        this.removeCorner;
+        scope.removeCorner(corner);
       });
       this.new_corner_callbacks.fire(corner);
+      this.update();
       return corner;
     }
 
@@ -190,11 +193,11 @@ module BP3D.Model {
     // import and export -- cleanup
 
     public saveFloorplan() {
-      var floorplan = {
+      var floorplan:BP3D.IO.IFloorPlan = {
         corners: {},
         walls: [],
         wallTextures: [],
-        floorTextures: {},
+        floorTextures: [],
         newFloorTextures: {}
       }
 
@@ -213,12 +216,15 @@ module BP3D.Model {
           'backTexture': wall.backTexture
         });
       });
-      floorplan.newFloorTextures = this.floorTextures;
+      floorplan.newFloorTextures = <any> this.floorTextures;
       return floorplan;
     }
 
-    public loadFloorplan(floorplan) {
+    public loadFloorplan(floorplan: BP3D.IO.IFloorPlan) {
       this.reset();
+
+      var tThick = BP3D.Core.Configuration.getNumericValue(BP3D.Core.configWallThickness);
+      BP3D.Core.Configuration.setValue(BP3D.Core.configWallThickness, tThick * BP3D.Three.CmToWorld);
 
       var corners = {};
       if (floorplan == null || !('corners' in floorplan) || !('walls' in floorplan)) {
@@ -226,22 +232,42 @@ module BP3D.Model {
       }
       for (var id in floorplan.corners) {
         var corner = floorplan.corners[id];
-        corners[id] = this.newCorner(corner.x, corner.y, id);
+        corners[id] = this.newCorner(corner.x * BP3D.Three.CmToWorld, corner.y * BP3D.Three.CmToWorld, id);
       }
       var scope = this;
       floorplan.walls.forEach((wall) => {
+        var tWallHeight = -1;
+        if (wall.height) {
+          tWallHeight = wall.height * BP3D.Three.CmToWorld;
+        } else {
+          tWallHeight = BP3D.Core.Configuration.getNumericValue(BP3D.Core.configWallHeight) * BP3D.Three.CmToWorld; 
+        }
         var newWall = scope.newWall(
-          corners[wall.corner1], corners[wall.corner2]);
+          corners[wall.corner1], corners[wall.corner2], tWallHeight);
         if (wall.frontTexture) {
-          newWall.frontTexture = wall.frontTexture;
+          newWall.frontTexture = {
+            url : wall.frontTexture.url,
+            scale: wall.frontTexture.scale * BP3D.Three.CmToWorld,
+            stretch : wall.frontTexture.stretch
+          };
         }
         if (wall.backTexture) {
-          newWall.backTexture = wall.backTexture;
+          newWall.backTexture = {
+            url: wall.backTexture.url,
+            scale: wall.backTexture.scale * BP3D.Three.CmToWorld,
+            stretch: wall.backTexture.stretch
+          } 
         }
       });
 
       if ('newFloorTextures' in floorplan) {
-        this.floorTextures = floorplan.newFloorTextures;
+          this.floorTextures = floorplan.newFloorTextures;
+
+          Object.keys(this.floorTextures).forEach((k) => {
+              var t = this.floorTextures[k];
+              t.scale *= BP3D.Three.CmToWorld;
+
+          });
       }
 
       this.update();
