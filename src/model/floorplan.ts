@@ -223,8 +223,8 @@ module BP3D.Model {
     public loadFloorplan(floorplan: BP3D.IO.IFloorPlan) {
       this.reset();
 
-      var tThick = BP3D.Core.Configuration.getNumericValue(BP3D.Core.configWallThickness);
-      BP3D.Core.Configuration.setValue(BP3D.Core.configWallThickness, tThick * BP3D.Three.CmToWorld);
+      var thickness = BP3D.Core.Configuration.getNumericValue(BP3D.Core.configWallThickness);
+      BP3D.Core.Configuration.setValue(BP3D.Core.configWallThickness, thickness * BP3D.Three.CmToWorld);
 
       var corners = {};
       if (floorplan == null || !('corners' in floorplan) || !('walls' in floorplan)) {
