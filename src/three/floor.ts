@@ -30,10 +30,6 @@ module BP3D.Three {
 
     function buildFloor() {
       var textureSettings = scope.room.getTexture();
-      // setup texture
-      // new texture loader
-      //var loader = new THREE.TextureLoader();
-      //var floorTexture = loader.load(textureSettings.url);
       var floorTexture = THREE.ImageUtils.loadTexture(textureSettings.url);
       floorTexture.wrapS = THREE.RepeatWrapping;
       floorTexture.wrapT = THREE.RepeatWrapping;
@@ -111,7 +107,7 @@ module BP3D.Three {
       else {
         scene.add(floorPlane);
         // hack so we can do intersect testing
-		// Todo roofplane handling
+        // Todo roofplane handling
         scene.add(room.floorPlane);
       }
     }
