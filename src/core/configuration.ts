@@ -79,7 +79,7 @@ module BP3D.Core {
       edgeColor: "#888888",
       edgeColorHover: "#008cba",
       deleteColor: "#ff0000",
-  	  cornerRadius: 0,
+      cornerRadius: 0,
       cornerRadiusHover: 7,
       cornerColor: "#cccccc",
       cornerColorHover: "#008cba",
