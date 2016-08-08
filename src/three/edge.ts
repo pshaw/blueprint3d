@@ -4,11 +4,15 @@
 
 module BP3D.Three {
 
+  // if using an already existing scenegraph, this creates 
+  // an THREE.Object3D for every wall and (if Prefixlevel==true) yet another level
+  // CreateHierarchy == false uses standard behaviour, i.e. all meshes end up at root level in the scene
+  // TODO make whole blueprint3d Hierarchy- aware
   export class HierarchyConfig {
-    static CreateHierarchy: boolean = false;
+    static CreateHierarchy: boolean = false;  //create at least 1 intermediate level for each wall, named wall_1_wl for the first one
     static Prefix: string = "wall_";
     static Postfix: string = "_wl";
-    static PrefixLevel: boolean = true;
+    static PrefixLevel: boolean = true;       //create a second intermediate level (named without postfix) i.e.  scene -> wall_1_wl -> wall_1 -> meshes
     static FirstFreeNumber: number = 1;
   }
 
@@ -92,7 +96,7 @@ module BP3D.Three {
         HierarchyConfig.FirstFreeNumber++;
 
       } else {
-        console.log(HierarchyConfig);
+        
       }
         
       planes.forEach((plane) => {

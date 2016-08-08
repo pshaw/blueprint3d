@@ -115,7 +115,6 @@ module BP3D.Three {
     this.removeFromScene = function () {
       if (HierarchyConfig.CreateHierarchy) {
         var selectedObject = scene.getScene().getObjectByName(scope.id);
-        console.log(selectedObject);
         scene.getScene().remove(selectedObject);
       } else {
         scene.remove(floorPlane);
