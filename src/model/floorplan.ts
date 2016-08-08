@@ -247,8 +247,6 @@ module BP3D.Model {
         } else {
             wallThickness = BP3D.Core.Configuration.getNumericValue(BP3D.Core.configWallThickness) * BP3D.Three.CmToWorld;
         }
-
-
         var newWall = scope.newWall(
           corners[wall.corner1], corners[wall.corner2], wallHeight, wallThickness);
         if (wall.frontTexture) {
