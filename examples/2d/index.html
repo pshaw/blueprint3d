@@ -1,28 +1,29 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Blueprint 3D - Example</title>
+    <title>Blueprint 2D - Example</title>
 
-    <link href="css/bootstrap.css" rel="stylesheet">
-    <link href="css/example.css" rel="stylesheet">
+    <link href="../shared/css/bootstrap.css" rel="stylesheet">
+    <link href="../shared/css/example.css" rel="stylesheet">
 
-    <script src="js/three.min.js"></script>
-    <script src="js/blueprint3d.js"></script>
+    <script src="../shared/js/three.min.js"></script>
+    <script src="../shared/js/blueprint3d.js"></script>
 
-    <script src="js/jquery.js"></script>
-    <script src="js/bootstrap.js"></script>
+    <script src="../shared/js/jquery.js"></script>
+    <script src="../shared/js/bootstrap.js"></script>
     
     <script src="js/items.js"></script>
     <script src="js/example.js"></script>
   </head>
 
   <body>
-
-    <script>
-        $(document).ready(function () {
-            bp_example_init();
-        });
-    </script>
+  
+  <script>
+  $( document ).ready(function() {
+    console.log( "ready!" );
+        bp_example_init2d();
+    });
+  </script>
 
     <div class="container-fluid">
       <div class="row main-row">
@@ -101,8 +102,8 @@
               <div class="panel-body" style="color: #333333">
 
                 <div class="col-sm-6" style="padding: 3px">
-                  <a href="#" class="thumbnail texture-select-thumbnail" texture-url="rooms/textures/light_fine_wood.jpg" texture-stretch="false" texture-scale="300">
-                    <img alt="Thumbnail light fine wood" src="rooms/thumbnails/thumbnail_light_fine_wood.jpg" />
+                  <a href="#" class="thumbnail texture-select-thumbnail" texture-url="../shared/rooms/textures/light_fine_wood.jpg" texture-stretch="false" texture-scale="300">
+                    <img alt="Thumbnail light fine wood" src="../shared/rooms/thumbnails/thumbnail_light_fine_wood.jpg" />
                   </a>
                 </div>
               </div>
@@ -115,18 +116,18 @@
               <div class="panel-heading">Adjust Wall</div>
               <div class="panel-body" style="color: #333333">
                 <div class="col-sm-6" style="padding: 3px">
-                  <a href="#" class="thumbnail texture-select-thumbnail" texture-url="rooms/textures/marbletiles.jpg" texture-stretch="false" texture-scale="300">
-                    <img alt="Thumbnail marbletiles" src="rooms/thumbnails/thumbnail_marbletiles.jpg" />
+                  <a href="#" class="thumbnail texture-select-thumbnail" texture-url="../shared/rooms/textures/marbletiles.jpg" texture-stretch="false" texture-scale="300">
+                    <img alt="Thumbnail marbletiles" src="../shared/rooms/thumbnails/thumbnail_marbletiles.jpg" />
                   </a>
                 </div>
                 <div class="col-sm-6" style="padding: 3px">
-                  <a href="#" class="thumbnail texture-select-thumbnail" texture-url="rooms/textures/wallmap_yellow.png" texture-stretch="true" texture-scale="">
-                    <img alt="Thumbnail wallmap yellow" src="rooms/thumbnails/thumbnail_wallmap_yellow.png" />
+                  <a href="#" class="thumbnail texture-select-thumbnail" texture-url="../shared/rooms/textures/wallmap_yellow.png" texture-stretch="true" texture-scale="">
+                    <img alt="Thumbnail wallmap yellow" src="../shared/rooms/thumbnails/thumbnail_wallmap_yellow.png" />
                   </a>
                 </div>
                 <div class="col-sm-6" style="padding: 3px">
-                  <a href="#" class="thumbnail texture-select-thumbnail" texture-url="rooms/textures/light_brick.jpg" texture-stretch="false" texture-scale="100">
-                    <img alt="Thumbnail light brick" src="rooms/thumbnails/thumbnail_light_brick.jpg" />
+                  <a href="#" class="thumbnail texture-select-thumbnail" texture-url="../shared/rooms/textures/light_brick.jpg" texture-stretch="false" texture-scale="100">
+                    <img alt="Thumbnail light brick" src="../shared/rooms/thumbnails/thumbnail_light_brick.jpg" />
                   </a>
                 </div>
               </div>
