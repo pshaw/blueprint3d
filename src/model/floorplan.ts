@@ -109,8 +109,8 @@ module BP3D.Model {
      * @param end he end corner.
      * @returns The new wall.
      */
-    public newWall(start: Corner, end: Corner, height: number = -1): Wall {
-      var wall = new Wall(start, end, height);
+    public newWall(start: Corner, end: Corner, height: number = -1, thick = -1): Wall {
+      var wall = new Wall(start, end, height, thick);
       this.walls.push(wall)
       var scope = this;
       wall.fireOnDelete(() => {
@@ -222,8 +222,8 @@ module BP3D.Model {
     public loadFloorplan(floorplan: BP3D.IO.IFloorPlan) {
       this.reset();
 
-      var thickness = BP3D.Core.Configuration.getNumericValue(BP3D.Core.configWallThickness);
-      BP3D.Core.Configuration.setValue(BP3D.Core.configWallThickness, thickness * BP3D.Three.CmToWorld);
+      //var thickness = BP3D.Core.Configuration.getNumericValue(BP3D.Core.configWallThickness);
+      //BP3D.Core.Configuration.setValue(BP3D.Core.configWallThickness, thickness * BP3D.Three.CmToWorld);
 
       var corners = {};
       if (floorplan == null || !('corners' in floorplan) || !('walls' in floorplan)) {
@@ -241,8 +241,16 @@ module BP3D.Model {
         } else {
           wallHeight = BP3D.Core.Configuration.getNumericValue(BP3D.Core.configWallHeight) * BP3D.Three.CmToWorld; 
         }
+        var wallThickness = -1;
+        if (wall.thickness) {
+            wallThickness = wall.thickness * BP3D.Three.CmToWorld;
+        } else {
+            wallThickness = BP3D.Core.Configuration.getNumericValue(BP3D.Core.configWallThickness) * BP3D.Three.CmToWorld;
+        }
+
+
         var newWall = scope.newWall(
-          corners[wall.corner1], corners[wall.corner2], wallHeight);
+          corners[wall.corner1], corners[wall.corner2], wallHeight, wallThickness);
         if (wall.frontTexture) {
           newWall.frontTexture = {
             url : wall.frontTexture.url,

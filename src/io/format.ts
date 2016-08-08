@@ -64,6 +64,9 @@ module BP3D.IO {
 
     /** Height in cm, optional. */
     height?: number;
+
+    /** Thicknessin cm, optional. */
+    thickness?: number;
   }
 
   /** Texture definition. */
