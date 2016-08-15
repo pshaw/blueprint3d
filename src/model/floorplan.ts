@@ -268,6 +268,7 @@ module BP3D.Model {
       if ('newFloorTextures' in floorplan) {
           this.floorTextures = floorplan.newFloorTextures;
 
+          //rescale
           Object.keys(this.floorTextures).forEach((k) => {
               var t = this.floorTextures[k];
               t.scale *= BP3D.Three.CmToWorld;

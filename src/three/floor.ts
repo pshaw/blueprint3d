@@ -103,12 +103,17 @@ module BP3D.Three {
         }
         HierarchyConfig.FirstFreeNumber++;
         tMeshParent.add(floorPlane);
+        console.log("floor.addToScene will return ", tObj);
+        return tObj; //NM HACK
       }
       else {
         scene.add(floorPlane);
         // hack so we can do intersect testing
         // Todo roofplane handling
         scene.add(room.floorPlane);
+
+        console.log("floor.addToScene will return (nonhierarchy)", floorPlane);
+        return floorPlane; //NM HACK
       }
     }
 

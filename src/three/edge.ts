@@ -14,7 +14,7 @@ module BP3D.Three {
     static Postfix: string = "_wl";
     static PrefixLevel: boolean = true;       //create a second intermediate level (named without postfix) i.e.  scene -> wall_1_wl -> wall_1 -> meshes
     static FirstFreeNumber: number = 1;
-  }
+    }
 
   export var Edge = function (scene: BP3D.Model.Scene, edge: BP3D.Model.HalfEdge, controls) {
      
@@ -37,19 +37,26 @@ module BP3D.Three {
     var baseColor = 0xdddddd;
 
     this.visible = false;
-
+    this.meshes = [];
     this.remove = function () {
       edge.redrawCallbacks.remove(redraw);
       controls.cameraMovedCallbacks.remove(updateVisibility);
       removeFromScene();
     }
 
+    this.getMeshes = function(){
+          return scope.meshes;
+      }
+
     function init() {
       edge.redrawCallbacks.add(redraw);
       controls.cameraMovedCallbacks.add(updateVisibility);
       updateTexture();
       updatePlanes();
-      addToScene();
+      var nm_planes = addToScene();
+      console.log("init() returns:");
+      console.log(nm_planes);
+      return nm_planes;	
     }
 
     function redraw() {
@@ -76,7 +83,7 @@ module BP3D.Three {
     }
 
     function addToScene() {
- 
+      console.log(new Error());
       var tMeshParent: any = scene.getScene();    // should be Three.scene or three.Object3D
 
       if (HierarchyConfig.CreateHierarchy) {
@@ -100,15 +107,25 @@ module BP3D.Three {
       }
         
       planes.forEach((plane) => {
-        tMeshParent.add(plane);
+          tMeshParent.add(plane);
+
       });
       basePlanes.forEach((plane) => {
         tMeshParent.add(plane);
       });
       updateVisibility();
+
+      var tResult = [];
+      tResult.push(planes);
+      tResult.push(basePlanes);
+      console.log(tResult);
+      return tResult;
     }
 
     function updateVisibility() {
+        console.warn("three/edge.ts   updateVisibility destroyed by nm");
+        return;
+
       // finds the normal from the specified edge
       var start = edge.interiorStart();
       var end = edge.interiorEnd();
@@ -186,41 +203,63 @@ module BP3D.Three {
         side: THREE.DoubleSide
       });
 
+
+    
       // exterior plane
-      planes.push(makeWall(
-        edge.exteriorStart(),
-        edge.exteriorEnd(),
-        edge.exteriorTransform,
-        edge.invExteriorTransform,
-        fillerMaterial));
+      console.log("-----------exterior plane:");
+      var tExterior = makeWall(
+          edge.exteriorStart(),
+          edge.exteriorEnd(),
+          edge.exteriorTransform,
+          edge.invExteriorTransform,
+          fillerMaterial);
+      tExterior["SpecialMeshName"] = "Exterior";
+      planes.push(tExterior);
 
       // interior plane
-      planes.push(makeWall(
-        edge.interiorStart(),
-        edge.interiorEnd(),
-        edge.interiorTransform,
-        edge.invInteriorTransform,
-        wallMaterial));
+      console.log("-----------interior plane:");
+      var tInterior = makeWall(
+          edge.interiorStart(),
+          edge.interiorEnd(),
+          edge.interiorTransform,
+          edge.invInteriorTransform,
+          wallMaterial);
+
+      tInterior["SpecialMeshName"] = "Interior";
+      planes.push(tInterior);
 
       // bottom
       // put into basePlanes since this is always visible
-      basePlanes.push(buildFiller(
-        edge, 0,
-        THREE.BackSide, baseColor));
+      var tBottom = buildFiller(
+          edge, 0,
+          THREE.BackSide, baseColor);
+
+      tBottom["SpecialMeshName"] = "Bottom";
+      basePlanes.push(tBottom);
 
       // top
-      planes.push(buildFiller(
-        edge, wall.height,
-        THREE.DoubleSide, fillerColor));
+      var tTopMesh = buildFiller(
+          edge, wall.height,
+          THREE.DoubleSide, fillerColor);
+      tTopMesh["SpecialMeshName"] = "Top";
+      planes.push(tTopMesh);
 
       // sides
-      planes.push(buildSideFillter(
-        edge.interiorStart(), edge.exteriorStart(),
-        wall.height, sideColor));
+      var tSide1 = buildSideFillter(
+          edge.interiorStart(), edge.exteriorStart(),
+          wall.height, sideColor);
+      tSide1["SpecialMeshName"] = "Side";
+      planes.push(tSide1);
 
-      planes.push(buildSideFillter(
-        edge.interiorEnd(), edge.exteriorEnd(),
-        wall.height, sideColor));
+      var tSide2 = buildSideFillter(
+          edge.interiorEnd(), edge.exteriorEnd(),
+          wall.height, sideColor);
+      tSide2["SpecialMeshName"] = "Side";
+
+      planes.push(tSide2);
+
+
+      console.log(planes);
     }
 
     // start, end have x and y attributes (i.e. corners)
@@ -245,6 +284,15 @@ module BP3D.Three {
         new THREE.Vector2(points[3].x, points[3].y)
       ]);
 
+      console.log("makeWall creates Shape the following way:");
+      console.log(points[0].x, points[0].y);
+      console.log(points[1].x, points[1].y);
+      console.log(points[2].x, points[2].y);
+      console.log(points[3].x, points[3].y);
+
+
+
+
       // add holes for each wall item
       wall.items.forEach((item) => {
         var pos = item.position.clone();
@@ -266,11 +314,28 @@ module BP3D.Three {
       });
 
       var geometry = new THREE.ShapeGeometry(shape);
+      console.log("unmodified shape geometry nwas:");	
+      console.log(JSON.stringify(geometry.vertices));
 
       geometry.vertices.forEach((v) => {
         v.applyMatrix4(invTransform);
       });
 
+      console.log("moved and rotated");
+      console.log(JSON.stringify(geometry.vertices));
+
+      var translation = new THREE.Vector3(),
+          rotationq = new THREE.Quaternion(),
+          scale = new THREE.Vector3();
+
+      invTransform.decompose(translation, rotationq, scale);
+
+
+      var rotation = new THREE.Euler(0,0,0,"XYZ");
+      rotation.setFromQuaternion(rotationq, "XYZ");
+
+      console.log(JSON.stringify({tra:translation, rot:rotation,sca:scale}));
+      
       // make UVs
       var totalDistance = Core.Utils.distance(v1.x, v1.z, v2.x, v2.z);
       var height = wall.height;
@@ -334,7 +399,10 @@ module BP3D.Three {
         toVec2(edge.exteriorEnd()),
         toVec2(edge.interiorEnd()),
         toVec2(edge.interiorStart())
-      ];
+        ];
+
+      console.log("TOP buildfiller mesh generated:" + JSON.stringify(points));
+
 
       var fillerMaterial = new THREE.MeshBasicMaterial({
         color: color,
@@ -359,6 +427,6 @@ module BP3D.Three {
       return new THREE.Vector3(pos.x, height, pos.y);
     }
 
-    init();
+    scope.meshes = init();
   }
 }
