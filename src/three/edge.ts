@@ -25,13 +25,16 @@ module BP3D.Three {
     var wall = edge.wall;
     var front = edge.front;
 
+    
+
     var planes = [];
     var basePlanes = []; // always visible
     var texture = null;
 
     var id = null; //for hierarchy
 
-    var lightMap = THREE.ImageUtils.loadTexture("../../shared/rooms/textures/walllightmap.png");
+    //var lightMap = THREE.ImageUtils.loadTexture("../../shared/rooms/textures/walllightmap.png");
+	var lightMap = THREE.ImageUtils.loadTexture("http://localhost:69/modules/kps.online/pages/rooms/textures/walllightmap.png");
     var fillerColor = 0xdddddd;
     var sideColor = 0xcccccc;
     var baseColor = 0xdddddd;
@@ -123,8 +126,8 @@ module BP3D.Three {
     }
 
     function updateVisibility() {
-        console.warn("three/edge.ts   updateVisibility destroyed by nm");
-        return;
+       console.warn("three/edge.ts   updateVisibility destroyed by nm, worked only with own camera");
+       return;
 
       // finds the normal from the specified edge
       var start = edge.interiorStart();
@@ -235,14 +238,20 @@ module BP3D.Three {
           THREE.BackSide, baseColor);
 
       tBottom["SpecialMeshName"] = "Bottom";
-      basePlanes.push(tBottom);
+      tBottom["SpecialMeshStartEnd"] = edge.wall.getStart().id + "#" + edge.wall.getEnd().id;
+	  tBottom["SpecialFront"] = edge.front;
+
+	  basePlanes.push(tBottom);
 
       // top
       var tTopMesh = buildFiller(
           edge, wall.height,
           THREE.DoubleSide, fillerColor);
       tTopMesh["SpecialMeshName"] = "Top";
-      planes.push(tTopMesh);
+      tTopMesh["SpecialMeshStartEnd"] = edge.wall.getStart().id + "#" + edge.wall.getEnd().id; 	
+	  tTopMesh["SpecialFront"] = edge.front;
+
+	  planes.push(tTopMesh);
 
       // sides
       var tSide1 = buildSideFillter(
