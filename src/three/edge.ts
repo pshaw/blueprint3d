@@ -343,7 +343,9 @@ module BP3D.Three {
       var rotation = new THREE.Euler(0,0,0,"XYZ");
       rotation.setFromQuaternion(rotationq, "XYZ");
 
-      console.log(JSON.stringify({tra:translation, rot:rotation,sca:scale}));
+      console.log(JSON.stringify({ tra: translation, rot: rotation, sca: scale }));
+
+	  console.log("making UVs needs lots of work");
       
       // make UVs
       var totalDistance = Core.Utils.distance(v1.x, v1.z, v2.x, v2.z);
@@ -351,8 +353,11 @@ module BP3D.Three {
       geometry.faceVertexUvs[0] = [];
 
       function vertexToUv(vertex) {
-        var x = Core.Utils.distance(v1.x, v1.z, vertex.x, vertex.z) / totalDistance;
-        var y = vertex.y / height;
+		  console.log(new Error());
+		  console.log(v1.x, v1.z, vertex.x, vertex.z, totalDistance);
+		  console.log(vertex.y, height);
+        var x = Core.Utils.distance(v1.x, v1.z, vertex.x, vertex.z) /*  /  totalDistance */;  //NM experiment
+        var y = vertex.y /*  / height */;                                                     //NM experiment
         return new THREE.Vector2(x, y);
       }
 
@@ -364,6 +369,7 @@ module BP3D.Three {
           vertexToUv(vertA),
           vertexToUv(vertB),
           vertexToUv(vertC)]);
+		console.log("UV generated: write UV: ", JSON.stringify(geometry.faceVertexUvs[0]));
       });
 
       geometry.faceVertexUvs[1] = geometry.faceVertexUvs[0];

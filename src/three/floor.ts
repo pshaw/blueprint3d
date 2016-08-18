@@ -51,14 +51,26 @@ module BP3D.Three {
         points.push(new THREE.Vector2(
           corner.x / textureScale,
           corner.y / textureScale));
+        console.log("Roompoint:", corner);
       });
+      console.log(scope.room);
+
+     
+
       var shape = new THREE.Shape(points);
 
       var geometry = new THREE.ShapeGeometry(shape);
 
       var floor = new THREE.Mesh(geometry, floorMaterialTop);
 
-      floor.rotation.set(Math.PI / 2, 0, 0);
+      var tPtIds = [];
+      scope.room.corners.forEach(function (p) {
+          tPtIds.push(p.id);
+      });
+
+      floor["SpecialMeshSortedPoints"] = tPtIds.sort().join(",");
+
+      floor.rotation.set(Math.PI / 2, 0, 0);  //NM EXP was 90 degrees, for debug set to PI / 8
       floor.scale.set(textureScale, textureScale, textureScale);
       floor.receiveShadow = true;
       floor.castShadow = false;
@@ -80,8 +92,9 @@ module BP3D.Three {
       });
       var shape = new THREE.Shape(points);
       var geometry = new THREE.ShapeGeometry(shape);
+      console.log("create roof");
       var roof = new THREE.Mesh(geometry, roofMaterial);
-
+      roof["SpecialMeshName"] = "Roof";	
       roof.rotation.set(Math.PI / 2, 0, 0);
       roof.position.y = 250;
       return roof;
