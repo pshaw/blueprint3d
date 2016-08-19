@@ -42,7 +42,7 @@ module BP3D.Three {
         specular: 0x0a0a0a
       });
 
-      var textureScale = textureSettings.scale;
+      var textureScale = 1; // used to correctly set uv coords 1*1m based        textureSettings.scale;
       // http://stackoverflow.com/questions/19182298/how-to-texture-a-three-js-mesh-created-with-shapegeometry
       // scale down coords to fit 0 -> 1, then rescale
 
