@@ -1,4 +1,4 @@
-/// <reference path="../../lib/jQuery.d.ts" />
+/// <reference path="../../lib/jquery.d.ts" />
 /// <reference path="../core/configuration.ts" />
 /// <reference path="../core/dimensioning.ts" />
 /// <reference path="../core/utils.ts" />
@@ -125,7 +125,7 @@ module BP3D.Floorplanner {
     /** */
     private drawEdgeLabel(edge: Model.HalfEdge) {
       var pos = edge.interiorCenter();
-      var length = edge.interiorDistance();
+      var length = (edge.exteriorDistance() + edge.interiorDistance()) / 2;
       if (length < 60) {
         // dont draw labels on walls this short
         return;
@@ -137,12 +137,16 @@ module BP3D.Floorplanner {
       this.context.strokeStyle = "#ffffff";
       this.context.lineWidth = 4;
 
-      this.context.strokeText(Core.Dimensioning.cmToMeasure(length),
-        this.viewmodel.convertX(pos.x),
-        this.viewmodel.convertY(pos.y));
-      this.context.fillText(Core.Dimensioning.cmToMeasure(length),
-        this.viewmodel.convertX(pos.x),
-        this.viewmodel.convertY(pos.y));
+      this.context.strokeText(
+          Core.Dimensioning.cmToMeasure(length),
+          this.viewmodel.convertX(pos.x),
+          this.viewmodel.convertY(pos.y)
+      );
+      this.context.fillText(
+          Core.Dimensioning.cmToMeasure(length),
+          this.viewmodel.convertX(pos.x),
+          this.viewmodel.convertY(pos.y)
+      );
     }
 
     /** */

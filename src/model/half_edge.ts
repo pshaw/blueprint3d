@@ -126,6 +126,12 @@ module BP3D.Model {
         this.exteriorStart(), this.exteriorEnd());
     }
 
+    public exteriorDistance(): number {
+      var start = this.exteriorStart();
+      var end = this.exteriorEnd();
+      return Core.Utils.distance(start.x, start.y, end.x, end.y);
+    }
+
     public interiorDistance(): number {
       var start = this.interiorStart();
       var end = this.interiorEnd();
