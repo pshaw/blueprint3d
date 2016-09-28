@@ -469,7 +469,7 @@ var mainControls = function(blueprint3d) {
   var blueprint3d = blueprint3d;
 
   function newDesign() {
-    blueprint3d.model.loadSerialized('{"floorplan":{"corners":{"f90da5e3-9e0e-eba7-173d-eb0b071e838e":{"x":204.85099999999989,"y":289.052},"da026c08-d76a-a944-8e7b-096b752da9ed":{"x":672.2109999999999,"y":289.052},"4e3d65cb-54c0-0681-28bf-bddcc7bdb571":{"x":672.2109999999999,"y":-178.308},"71d4f128-ae80-3d58-9bd2-711c6ce6cdf2":{"x":204.85099999999989,"y":-178.308}},"walls":[{"corner1":"71d4f128-ae80-3d58-9bd2-711c6ce6cdf2","corner2":"f90da5e3-9e0e-eba7-173d-eb0b071e838e","frontTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0},"backTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0}},{"corner1":"f90da5e3-9e0e-eba7-173d-eb0b071e838e","corner2":"da026c08-d76a-a944-8e7b-096b752da9ed","frontTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0},"backTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0}},{"corner1":"da026c08-d76a-a944-8e7b-096b752da9ed","corner2":"4e3d65cb-54c0-0681-28bf-bddcc7bdb571","frontTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0},"backTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0}},{"corner1":"4e3d65cb-54c0-0681-28bf-bddcc7bdb571","corner2":"71d4f128-ae80-3d58-9bd2-711c6ce6cdf2","frontTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0},"backTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0}}],"wallTextures":[],"floorTextures":{},"newFloorTextures":{}},"items":[]}');
+  	blueprint3d.model.loadSerialized('{"floorplan":{"corners":{"f90da5e3-9e0e-eba7-173d-eb0b071e838e":{"x":204.85099999999989,"y":289.052},"da026c08-d76a-a944-8e7b-096b752da9ed":{"x":672.2109999999999,"y":289.052},"4e3d65cb-54c0-0681-28bf-bddcc7bdb571":{"x":672.2109999999999,"y":-178.308},"71d4f128-ae80-3d58-9bd2-711c6ce6cdf2":{"x":204.85099999999989,"y":-178.308}},"walls":[{"corner1":"71d4f128-ae80-3d58-9bd2-711c6ce6cdf2","corner2":"f90da5e3-9e0e-eba7-173d-eb0b071e838e","frontTexture":{"url":"../shared/rooms/textures/wallmap.png","stretch":true,"scale":0},"backTexture":{"url":"../shared/rooms/textures/wallmap.png","stretch":true,"scale":0}},{"corner1":"f90da5e3-9e0e-eba7-173d-eb0b071e838e","corner2":"da026c08-d76a-a944-8e7b-096b752da9ed","frontTexture":{"url":"../shared/rooms/textures/wallmap.png","stretch":true,"scale":0},"backTexture":{"url":"../shared/rooms/textures/wallmap.png","stretch":true,"scale":0}},{"corner1":"da026c08-d76a-a944-8e7b-096b752da9ed","corner2":"4e3d65cb-54c0-0681-28bf-bddcc7bdb571","frontTexture":{"url":"../shared/rooms/textures/wallmap.png","stretch":true,"scale":0},"backTexture":{"url":"../shared/rooms/textures/wallmap.png","stretch":true,"scale":0}},{"corner1":"4e3d65cb-54c0-0681-28bf-bddcc7bdb571","corner2":"71d4f128-ae80-3d58-9bd2-711c6ce6cdf2","frontTexture":{"url":"../shared/rooms/textures/wallmap.png","stretch":true,"scale":0},"backTexture":{"url":"../shared/rooms/textures/wallmap.png","stretch":true,"scale":0}}],"wallTextures":[],"floorTextures":{},"newFloorTextures":{}},"items":[]}');
   }
 
   function loadDesign() {
@@ -506,7 +506,62 @@ var mainControls = function(blueprint3d) {
  * Initialize!
  */
 
-$(document).ready(function() {
+var bp_example_init = function (renderer, scene) {
+ 
+  // main setup
+  var opts = {
+    floorplannerElement: 'floorplanner-canvas',
+    threeElement: '#viewer',
+    threeCanvasElement: 'three-canvas',
+    textureDir: "models/textures/",
+    widget: false,
+    alreadyRenderer: renderer,
+    alreadyScene: scene
+  }
+  var blueprint3d = new BP3D.Blueprint3d(opts);
+
+  if (!opts.alreadyRenderer)
+  {
+    var modalEffects = new ModalEffects(blueprint3d);
+    var viewerFloorplanner = new ViewerFloorplanner(blueprint3d);
+    var contextMenu = new ContextMenu(blueprint3d);
+    var sideMenu = new SideMenu(blueprint3d, viewerFloorplanner, modalEffects);
+    var textureSelector = new TextureSelector(blueprint3d, sideMenu);        
+    var cameraButtons = new CameraButtons(blueprint3d);
+    mainControls(blueprint3d);
+  }
+  // This serialization format needs work
+  // Load a simple rectangle room
+  // Meter based: blueprint3d.model.loadSerialized('{"floorplan":{"corners":{"f90da5e3-9e0e-eba7-173d-eb0b071e838e":{"x":2.0485099999999989,"y":2.89052},"da026c08-d76a-a944-8e7b-096b752da9ed":{"x":6.2109999999999,"y":2.052},"4e3d65cb-54c0-0681-28bf-bddcc7bdb571":{"x":6.2109999999999,"y":-1.308},"71d4f128-ae80-3d58-9bd2-711c6ce6cdf2":{"x":2.85099999999989,"y":-1.308}},"walls":[{"corner1":"71d4f128-ae80-3d58-9bd2-711c6ce6cdf2","corner2":"f90da5e3-9e0e-eba7-173d-eb0b071e838e","frontTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0},"backTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0}},{"corner1":"f90da5e3-9e0e-eba7-173d-eb0b071e838e","corner2":"da026c08-d76a-a944-8e7b-096b752da9ed","frontTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0},"backTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0}},{"corner1":"da026c08-d76a-a944-8e7b-096b752da9ed","corner2":"4e3d65cb-54c0-0681-28bf-bddcc7bdb571","frontTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0},"backTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0}},{"corner1":"4e3d65cb-54c0-0681-28bf-bddcc7bdb571","corner2":"71d4f128-ae80-3d58-9bd2-711c6ce6cdf2","frontTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0},"backTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0}}],"wallTextures":[],"floorTextures":{},"newFloorTextures":{}},"items":[]}');
+
+  blueprint3d.model.loadSerialized('{"floorplan":{"corners":{"f90da5e3-9e0e-eba7-173d-eb0b071e838e":{"x":204.85099999999989,"y":289.052},' +
+                                                            '"da026c08-d76a-a944-8e7b-096b752da9ed":{"x":672.2109999999999,"y":289.052},' +
+                                                            '"4e3d65cb-54c0-0681-28bf-bddcc7bdb571":{"x":672.2109999999999,"y":-178.308},' +
+                                                            '"71d4f128-ae80-3d58-9bd2-711c6ce6cdf2":{"x":204.85099999999989,"y":-178.308}},' +
+                                                           '"walls":[{"corner1":"71d4f128-ae80-3d58-9bd2-711c6ce6cdf2","corner2":"f90da5e3-9e0e-eba7-173d-eb0b071e838e","height":170,"frontTexture":{"url":"../shared/rooms/textures/wallmap.png","stretch":true,"scale":0},"backTexture":{"url":"../shared/rooms/textures/wallmap.png","stretch":true,"scale":0}},{"corner1":"f90da5e3-9e0e-eba7-173d-eb0b071e838e","corner2":"da026c08-d76a-a944-8e7b-096b752da9ed","frontTexture":{"url":"../shared/rooms/textures/wallmap.png","stretch":true,"scale":0},"backTexture":{"url":"../shared/rooms/textures/wallmap.png","stretch":true,"scale":0}},{"corner1":"da026c08-d76a-a944-8e7b-096b752da9ed","corner2":"4e3d65cb-54c0-0681-28bf-bddcc7bdb571","frontTexture":{"url":"../shared/rooms/textures/wallmap.png","stretch":true,"scale":0},"backTexture":{"url":"../shared/rooms/textures/wallmap.png","stretch":true,"scale":0}},' +
+'{"corner1":"4e3d65cb-54c0-0681-28bf-bddcc7bdb571","corner2":"71d4f128-ae80-3d58-9bd2-711c6ce6cdf2",' +
+'"frontTexture":{"url":"../shared/rooms/textures/light_brick.jpg","stretch":false,"scale":100},'
++ '"backTexture":{"url":"../shared/rooms/textures/light_brick.jpg","stretch":false,"scale":100}}],'
++ '"wallTextures":[],' +
+//'"floorTextures":{},' +
+'"floorTextures":[],' +
+
+'"newFloorTextures":{'+
+// '"f90da5e3-9e0e-eba7-173d-eb0b071e838e,da026c08-d76a-a944-8e7b-096b752da9ed,4e3d65cb-54c0-0681-28bf-bddcc7bdb571,71d4f128-ae80-3d58-9bd2-711c6ce6cdf2"' +
+'"4e3d65cb-54c0-0681-28bf-bddcc7bdb571,71d4f128-ae80-3d58-9bd2-711c6ce6cdf2,da026c08-d76a-a944-8e7b-096b752da9ed,f90da5e3-9e0e-eba7-173d-eb0b071e838e"'+
+
+':{"url":"../shared/rooms/textures/light_fine_wood.jpg", "scale":300}}},"items":[]}');
+}
+
+
+/*
+ * Initialize! , no longer document ready
+ */
+
+bp_example_init_3droom = function(renderer, threeScene, firstfree) {
+
+  var tFakeScene = new BP3D.Model.Scene();
+    tFakeScene.scene = threeScene;
 
   // main setup
   var opts = {
@@ -514,8 +569,11 @@ $(document).ready(function() {
     threeElement: '#viewer',
     threeCanvasElement: 'three-canvas',
     textureDir: "models/textures/",
-    widget: false
+    widget: false,
+    alreadyRenderer: renderer,
+    alreadyScene: tFakeScene
   }
+
   var blueprint3d = new BP3D.Blueprint3d(opts);
 
   var modalEffects = new ModalEffects(blueprint3d);
@@ -526,7 +584,32 @@ $(document).ready(function() {
   var cameraButtons = new CameraButtons(blueprint3d);
   mainControls(blueprint3d);
 
+  BP3D.Three.CmToWorld = 0.01;
+
+  BP3D.Three.HierarchyConfig.CreateHierarchy = true;
+  BP3D.Three.HierarchyConfig.PrefixLevel = true;
+  BP3D.Three.HierarchyConfig.Prefix = "t";
+  BP3D.Three.HierarchyConfig.Postfix = "__.";
+  BP3D.Three.HierarchyConfig.FirstFreeNumber = firstfree;
+
+
   // This serialization format needs work
-  // Load a simple rectangle room
-  blueprint3d.model.loadSerialized('{"floorplan":{"corners":{"f90da5e3-9e0e-eba7-173d-eb0b071e838e":{"x":204.85099999999989,"y":289.052},"da026c08-d76a-a944-8e7b-096b752da9ed":{"x":672.2109999999999,"y":289.052},"4e3d65cb-54c0-0681-28bf-bddcc7bdb571":{"x":672.2109999999999,"y":-178.308},"71d4f128-ae80-3d58-9bd2-711c6ce6cdf2":{"x":204.85099999999989,"y":-178.308}},"walls":[{"corner1":"71d4f128-ae80-3d58-9bd2-711c6ce6cdf2","corner2":"f90da5e3-9e0e-eba7-173d-eb0b071e838e","frontTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0},"backTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0}},{"corner1":"f90da5e3-9e0e-eba7-173d-eb0b071e838e","corner2":"da026c08-d76a-a944-8e7b-096b752da9ed","frontTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0},"backTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0}},{"corner1":"da026c08-d76a-a944-8e7b-096b752da9ed","corner2":"4e3d65cb-54c0-0681-28bf-bddcc7bdb571","frontTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0},"backTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0}},{"corner1":"4e3d65cb-54c0-0681-28bf-bddcc7bdb571","corner2":"71d4f128-ae80-3d58-9bd2-711c6ce6cdf2","frontTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0},"backTexture":{"url":"rooms/textures/wallmap.png","stretch":true,"scale":0}}],"wallTextures":[],"floorTextures":{},"newFloorTextures":{}},"items":[]}');
-});
+  // Load a simple rectangle room, with explicit textures and a height entry now
+   blueprint3d.model.loadSerialized('{"floorplan":{"corners":{"f90da5e3-9e0e-eba7-173d-eb0b071e838e":{"x":-200,"y":-200},"da026c08-d76a-a944-8e7b-096b752da9ed":{"x":200,"y":-200},"4e3d65cb-54c0-0681-28bf-bddcc7bdb571":{"x":200,"y":200},'
++ '"71d4f128-ae80-3d58-9bd2-711c6ce6cdf2":{"x":-200,"y":200}},"walls":[{"height":100.5,"thickness":80,"corner1":"71d4f128-ae80-3d58-9bd2-711c6ce6cdf2","corner2":"f90da5e3-9e0e-eba7-173d-eb0b071e838e",' +
+'"frontTexture":{"url":"../shared/rooms/textures/light_brick.jpg","stretch":false,"scale":100},"backTexture":{"url":"../shared/rooms/textures/light_brick.jpg","stretch":false,"scale":100}},'
++ '{"corner1":"f90da5e3-9e0e-eba7-173d-eb0b071e838e","corner2":"da026c08-d76a-a944-8e7b-096b752da9ed","frontTexture":{"url":"../shared/rooms/textures/wallmap.png","stretch":true,"scale":0},'
++ '"backTexture":{"url":"../shared/rooms/textures/wallmap.png","stretch":true,"scale":0}},{"corner1":"da026c08-d76a-a944-8e7b-096b752da9ed","corner2":"4e3d65cb-54c0-0681-28bf-bddcc7bdb571",'
++ '"frontTexture":{"url":"../shared/rooms/textures/wallmap.png","stretch":true,"scale":0},"backTexture":{"url":"../shared/rooms/textures/wallmap.png","stretch":true,"scale":0}},'
++ '{"corner1":"4e3d65cb-54c0-0681-28bf-bddcc7bdb571","corner2":"71d4f128-ae80-3d58-9bd2-711c6ce6cdf2","frontTexture":{"url":"../shared/rooms/textures/light_brick.jpg","stretch":true,"scale":0},'
++ '"backTexture":{"url":"../shared/rooms/textures/light_brick.jpg","stretch":true,"scale":0}}],"wallTextures":[],"floorTextures":{},'
++'"newFloorTextures":{'+
+    // '"f90da5e3-9e0e-eba7-173d-eb0b071e838e,da026c08-d76a-a944-8e7b-096b752da9ed,4e3d65cb-54c0-0681-28bf-bddcc7bdb571,71d4f128-ae80-3d58-9bd2-711c6ce6cdf2"' +
+'"4e3d65cb-54c0-0681-28bf-bddcc7bdb571,71d4f128-ae80-3d58-9bd2-711c6ce6cdf2,da026c08-d76a-a944-8e7b-096b752da9ed,f90da5e3-9e0e-eba7-173d-eb0b071e838e"'+
+
+':{"url":"../shared/rooms/textures/light_fine_wood.jpg", "scale":300}}'
+ 
++ '},"items":[]}');
+
+}
+

@@ -16,7 +16,7 @@ module BP3D.Model {
 
   /** Default texture to be used if nothing is provided. */
   const defaultRoomTexture = {
-    url: "rooms/textures/hardwood.png",
+    url: "../../shared/rooms/textures/hardwood.png",
     scale: 400
   }
 

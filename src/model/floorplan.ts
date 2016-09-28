@@ -1,6 +1,7 @@
 /// <reference path="../../lib/jQuery.d.ts" />
 /// <reference path="../../lib/three.d.ts" />
 /// <reference path="../core/utils.ts" />
+/// <reference path="../io/format.ts" />
 /// <reference path="wall.ts" />
 /// <reference path="corner.ts" />
 /// <reference path="room.ts" />
@@ -108,8 +109,8 @@ module BP3D.Model {
      * @param end he end corner.
      * @returns The new wall.
      */
-    public newWall(start: Corner, end: Corner): Wall {
-      var wall = new Wall(start, end);
+    public newWall(start: Corner, end: Corner, height: number = -1, thick = -1): Wall {
+      var wall = new Wall(start, end, height, thick);
       this.walls.push(wall)
       var scope = this;
       wall.fireOnDelete(() => {
@@ -139,9 +140,10 @@ module BP3D.Model {
       var corner = new Corner(this, x, y, id);
       this.corners.push(corner);
       corner.fireOnDelete(() => {
-        this.removeCorner;
+        this.removeCorner(corner);
       });
       this.new_corner_callbacks.fire(corner);
+      this.update();
       return corner;
     }
 
@@ -190,11 +192,11 @@ module BP3D.Model {
     // import and export -- cleanup
 
     public saveFloorplan() {
-      var floorplan = {
+      var floorplan:BP3D.IO.IFloorPlan = {
         corners: {},
         walls: [],
         wallTextures: [],
-        floorTextures: {},
+        floorTextures: [],
         newFloorTextures: {}
       }
 
@@ -213,12 +215,15 @@ module BP3D.Model {
           'backTexture': wall.backTexture
         });
       });
-      floorplan.newFloorTextures = this.floorTextures;
+      floorplan.newFloorTextures = <any> this.floorTextures;
       return floorplan;
     }
 
-    public loadFloorplan(floorplan) {
+    public loadFloorplan(floorplan: BP3D.IO.IFloorPlan) {
       this.reset();
+
+      //var thickness = BP3D.Core.Configuration.getNumericValue(BP3D.Core.configWallThickness);
+      //BP3D.Core.Configuration.setValue(BP3D.Core.configWallThickness, thickness * BP3D.Three.CmToWorld);
 
       var corners = {};
       if (floorplan == null || !('corners' in floorplan) || !('walls' in floorplan)) {
@@ -226,22 +231,49 @@ module BP3D.Model {
       }
       for (var id in floorplan.corners) {
         var corner = floorplan.corners[id];
-        corners[id] = this.newCorner(corner.x, corner.y, id);
+        corners[id] = this.newCorner(corner.x * BP3D.Three.CmToWorld, corner.y * BP3D.Three.CmToWorld, id);
       }
       var scope = this;
       floorplan.walls.forEach((wall) => {
+        var wallHeight = -1;
+        if (wall.height) {
+          wallHeight = wall.height * BP3D.Three.CmToWorld;
+        } else {
+          wallHeight = BP3D.Core.Configuration.getNumericValue(BP3D.Core.configWallHeight) * BP3D.Three.CmToWorld; 
+        }
+        var wallThickness = -1;
+        if (wall.thickness) {
+            wallThickness = wall.thickness * BP3D.Three.CmToWorld;
+        } else {
+            wallThickness = BP3D.Core.Configuration.getNumericValue(BP3D.Core.configWallThickness) * BP3D.Three.CmToWorld;
+        }
         var newWall = scope.newWall(
-          corners[wall.corner1], corners[wall.corner2]);
+          corners[wall.corner1], corners[wall.corner2], wallHeight, wallThickness);
         if (wall.frontTexture) {
-          newWall.frontTexture = wall.frontTexture;
+          newWall.frontTexture = {
+            url : wall.frontTexture.url,
+            scale: wall.frontTexture.scale * BP3D.Three.CmToWorld,
+            stretch : wall.frontTexture.stretch
+          };
         }
         if (wall.backTexture) {
-          newWall.backTexture = wall.backTexture;
+          newWall.backTexture = {
+            url: wall.backTexture.url,
+            scale: wall.backTexture.scale * BP3D.Three.CmToWorld,
+            stretch: wall.backTexture.stretch
+          } 
         }
       });
 
       if ('newFloorTextures' in floorplan) {
-        this.floorTextures = floorplan.newFloorTextures;
+          this.floorTextures = floorplan.newFloorTextures;
+
+          //rescale
+          Object.keys(this.floorTextures).forEach((k) => {
+              var t = this.floorTextures[k];
+              t.scale *= BP3D.Three.CmToWorld;
+
+          });
       }
 
       this.update();
@@ -352,18 +384,17 @@ module BP3D.Model {
       // kinda hacky
       // find orphaned wall segments (i.e. not part of rooms) and
       // give them edges
-      var orphanWalls = []
-      this.walls.forEach((wall) => {
+      var orphanWalls = [];
+      this.walls.forEach(wall => {
         if (!wall.backEdge && !wall.frontEdge) {
           wall.orphan = true;
-          var back = new HalfEdge(null, wall, false);
-          back.generatePlane();
+          // only add a front edge, adding a back edge results in creation of two meshes
+          // the two meshes then collide creating strange visuals
           var front = new HalfEdge(null, wall, true);
           front.generatePlane();
           orphanWalls.push(wall);
         }
       });
-
     }
 
     /*

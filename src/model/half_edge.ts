@@ -34,10 +34,10 @@ module BP3D.Model {
     public invInteriorTransform = new THREE.Matrix4();
 
     /** transform from world coords to wall planes (z=0) */
-    private exteriorTransform = new THREE.Matrix4();
+    public exteriorTransform = new THREE.Matrix4();
 
     /** transform from world coords to wall planes (z=0) */
-    private invExteriorTransform = new THREE.Matrix4();
+    public invExteriorTransform = new THREE.Matrix4();
 
     /** */
     public redrawCallbacks = $.Callbacks();
@@ -48,7 +48,7 @@ module BP3D.Model {
      * @param wall The corresponding wall.
      * @param front True if front side.
      */
-    constructor(private room: Room, public wall: Wall, private front: boolean) {
+    constructor(private room: Room, public wall: Wall, public front: boolean) {
       this.front = front || false;
 
       this.offset = wall.thickness / 2.0;
@@ -124,6 +124,12 @@ module BP3D.Model {
       this.computeTransforms(
         this.exteriorTransform, this.invExteriorTransform,
         this.exteriorStart(), this.exteriorEnd());
+    }
+
+    public exteriorDistance(): number {
+      var start = this.exteriorStart();
+      var end = this.exteriorEnd();
+      return Core.Utils.distance(start.x, start.y, end.x, end.y);
     }
 
     public interiorDistance(): number {

@@ -7,7 +7,7 @@ module.exports = function (grunt) {
     sources: ["src/*.ts", "src/*/*.ts"],
     outDir: "dist",
     docDir: "doc",
-    exampleDir: "example/js/"
+    exampleDir: "examples/shared/js/"
   };
 
   var configuration = {
