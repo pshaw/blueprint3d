@@ -384,18 +384,17 @@ module BP3D.Model {
       // kinda hacky
       // find orphaned wall segments (i.e. not part of rooms) and
       // give them edges
-      var orphanWalls = []
-      this.walls.forEach((wall) => {
+      var orphanWalls = [];
+      this.walls.forEach(wall => {
         if (!wall.backEdge && !wall.frontEdge) {
           wall.orphan = true;
-          var back = new HalfEdge(null, wall, false);
-          back.generatePlane();
+          // only add a front edge, adding a back edge results in creation of two meshes
+          // the two meshes then collide creating strange visuals
           var front = new HalfEdge(null, wall, true);
           front.generatePlane();
           orphanWalls.push(wall);
         }
       });
-
     }
 
     /*
