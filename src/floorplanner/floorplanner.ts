@@ -6,7 +6,7 @@ module BP3D.Floorplanner {
   /** how much will we move a corner to make a wall axis aligned (cm) */
   const snapTolerance = 25;
 
-  /** 
+  /**
    * The Floorplanner implements an interactive tool for creation of floorplans.
    */
   export class Floorplanner {
@@ -174,8 +174,8 @@ module BP3D.Floorplanner {
       this.rawMouseX = event.clientX;
       this.rawMouseY = event.clientY;
 
-      this.mouseX = (event.clientX - this.canvasElement.offset().left) * this.cmPerPixel + this.originX * this.cmPerPixel;
-      this.mouseY = (event.clientY - this.canvasElement.offset().top) * this.cmPerPixel + this.originY * this.cmPerPixel;
+      this.mouseX = (event.clientX - this.canvasElement.offset().left + event.view.scrollX) * this.cmPerPixel + this.originX * this.cmPerPixel;
+      this.mouseY = (event.clientY - this.canvasElement.offset().top + event.view.scrollY) * this.cmPerPixel + this.originY * this.cmPerPixel;
 
       // update target (snapped position of actual mouse)
       if (this.mode == floorplannerModes.DRAW || (this.mode == floorplannerModes.MOVE && this.mouseDown)) {
