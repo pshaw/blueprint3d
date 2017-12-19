@@ -1,4 +1,3 @@
-/// <reference path="../../lib/three.d.ts" />
 
 module BP3D.Three {
   export var Lights = function (scene, floorplan) {
@@ -17,21 +16,21 @@ module BP3D.Three {
     }
 
     function init() {
-      var light = new THREE.HemisphereLight(0xffffff, 0x888888, 1.1);
+      var light = new THREE.HemisphereLight(0xffffff, 0x888888, 0.9);
       light.position.set(0, height, 0);
       scene.add(light);
 
-      dirLight = new THREE.DirectionalLight(0xffffff, 0);
-      dirLight.color.setHSL(1, 1, 0.1);
+
+      dirLight = new THREE.DirectionalLight(0xffffff, 0.2);
+      //dirLight.color.setHSL(1, 1, 0.1);
 
       dirLight.castShadow = true;
 
-      dirLight.shadowMapWidth = 1024;
-      dirLight.shadowMapHeight = 1024;
+      dirLight.shadow.mapSize.width = 1024;
+      dirLight.shadow.mapSize.height = 1024;
 
-      dirLight.shadowCameraFar = height + tol;
-      dirLight.shadowBias = -0.0001;
-      dirLight.shadowDarkness = 0.2;
+      dirLight.shadow.camera.far = height + tol;
+      dirLight.shadow.bias = -0.0001;
       dirLight.visible = true;
       dirLight.shadowCameraVisible = false;
 
@@ -53,18 +52,14 @@ module BP3D.Three {
       dirLight.target.position.copy(center);
       //dirLight.updateMatrix();
       //dirLight.updateWorldMatrix()
-      dirLight.shadowCameraLeft = -d;
-      dirLight.shadowCameraRight = d;
-      dirLight.shadowCameraTop = d;
-      dirLight.shadowCameraBottom = -d;
+      dirLight.shadow.camera.left = -d;
+      dirLight.shadow.camera.right = d;
+      dirLight.shadow.camera.top = d;
+      dirLight.shadow.camera.bottom = -d;
+
       // this is necessary for updates
-      if (dirLight.shadowCamera) {
-        dirLight.shadowCamera.left = dirLight.shadowCameraLeft;
-        dirLight.shadowCamera.right = dirLight.shadowCameraRight;
-        dirLight.shadowCamera.top = dirLight.shadowCameraTop;
-        dirLight.shadowCamera.bottom = dirLight.shadowCameraBottom;
-        dirLight.shadowCamera.updateProjectionMatrix();
-      }
+      dirLight.shadow.camera.updateProjectionMatrix();
+
     }
 
     init();

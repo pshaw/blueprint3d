@@ -1,4 +1,3 @@
-/// <reference path="../../lib/three.d.ts" />
 /// <reference path="../core/utils.ts" />
 /// <reference path="../model/model.ts" />
 /// <reference path="metadata.ts" />
@@ -64,7 +63,7 @@ module BP3D.Items {
      * @param rotation TODO
      * @param scale TODO 
      */
-    constructor(protected model: Model.Model, public metadata: Metadata, geometry: THREE.Geometry, material: THREE.MeshFaceMaterial, position: THREE.Vector3, rotation: number, scale: THREE.Vector3) {
+    constructor(protected model: Model.Model, public metadata: Metadata, geometry: THREE.Geometry, material: THREE.MultiMaterial, position: THREE.Vector3, rotation: number, scale: THREE.Vector3) {
       super();
 
       this.scene = this.model.scene;
@@ -172,7 +171,7 @@ module BP3D.Items {
       var on = this.hover || this.selected;
       this.highlighted = on;
       var hex = on ? this.emissiveColor : 0x000000;
-      (<THREE.MeshFaceMaterial>this.material).materials.forEach((material) => {
+      (<THREE.MultiMaterial>this.material).materials.forEach((material) => {
         // TODO_Ekki emissive doesn't exist anymore?
         (<any>material).emissive.setHex(hex);
       });

@@ -1,5 +1,3 @@
-/// <reference path="../../lib/jQuery.d.ts" />
-/// <reference path="../../lib/three.d.ts" />
 /// <reference path="controller.ts" />
 /// <reference path="floorPlan.ts" />
 /// <reference path="lights.ts" />
@@ -73,9 +71,9 @@ module BP3D.Three {
         preserveDrawingBuffer: true // required to support .toDataURL()
       });
       renderer.autoClear = false,
-        renderer.shadowMapEnabled = true;
+        renderer.shadowMap.enabled = true;
       renderer.shadowMapSoft = true;
-      renderer.shadowMapType = THREE.PCFSoftShadowMap;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
       var skybox = new Three.Skybox(scene);
 

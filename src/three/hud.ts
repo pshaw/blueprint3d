@@ -1,4 +1,3 @@
-/// <reference path="../../lib/three.d.ts" />
 /// <reference path="../core/utils.ts" />
 
 module BP3D.Three {

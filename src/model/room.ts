@@ -1,5 +1,3 @@
-/// <reference path="../../lib/three.d.ts" />
-/// <reference path="../../lib/jQuery.d.ts" />
 /// <reference path="../core/utils.ts" />
 /// <reference path="corner.ts" />
 /// <reference path="floorplan.ts" />

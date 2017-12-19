@@ -1,4 +1,3 @@
-/// <reference path="../../lib/jQuery.d.ts" />
 /// <reference path="../core/utils.ts" />
 /// <reference path="floorplan.ts" />
 /// <reference path="wall.ts" />

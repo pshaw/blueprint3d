@@ -5,35 +5,42 @@
   "license": "(MIT OR Apache-2.0)",
   "main": "main.js",
   "dependencies": {
+    "@types/jquery": "^3.2.13",
+    "@types/three": "^0.84.27",
     "bootstrap": "^3.3.1",
     "bootstrap-tour": "^0.10.1",
     "inherits": "^2.0.1",
     "jquery": "^2.1.3",
     "polygon": "^0.1.0",
     "segseg": "^0.2.1",
-    "three": "^0.69.0",
+    "three": "^0.84.0",
     "underscore": "^1.7.0",
     "vec2": "^1.6.0"
   },
   "devDependencies": {
+    "@types/node": "^8.0.34",
     "browserify": "^8.0.2",
     "grunt": "^1.0.1",
+    "grunt-browser-sync": "^2.2.0",
+    "grunt-concurrent": "^2.3.1",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-uglify": "^1.0.1",
+    "grunt-contrib-watch": "^1.0.0",
     "grunt-string-replace": "^1.2.1",
     "grunt-subgrunt": "^1.2.0",
+    "grunt-ts": "^6.0.0-beta.16",
     "grunt-typedoc": "^0.2.4",
-    "grunt-typescript": "^0.8.0",
-    "matchdep": "^1.0.1"
+    "matchdep": "^1.0.1",
+    "typescript": "2.5.3"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/Ekki/blueprint3d.git"
   },
   "scripts": {
-    "build": "browserify src/blueprint3d.js > example/js/blueprint3d.js --verbose"
+    "start": "grunt ts:debug"
   },
   "author": ""
 }

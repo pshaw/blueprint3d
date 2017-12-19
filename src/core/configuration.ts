@@ -21,7 +21,7 @@ module BP3D.Core {
       dimUnit: dimInch,
 
       wallHeight: 250,
-      wallThickness: 10
+      wallThickness: 6
     };
 
     /** Set a configuration parameter. */

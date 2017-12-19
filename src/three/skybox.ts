@@ -1,4 +1,3 @@
-/// <reference path="../../lib/three.d.ts" />
 
 module BP3D.Three {
   export var Skybox = function (scene) {

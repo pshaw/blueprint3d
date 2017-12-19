@@ -1,5 +1,3 @@
-/// <reference path="../../lib/jQuery.d.ts" />
-/// <reference path="../../lib/three.d.ts" />
 /// <reference path="../core/utils.ts" />
 
 module BP3D.Three {
@@ -102,7 +100,8 @@ module BP3D.Three {
         new THREE.PlaneGeometry(size, size),
         new THREE.MeshBasicMaterial());
       plane.rotation.x = -Math.PI / 2;
-      plane.visible = false;
+      plane.visible = true;
+      plane.material.visible = false;
       scene.add(plane);
     }
 

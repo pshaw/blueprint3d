@@ -1,5 +1,3 @@
-/// <reference path="../../lib/jQuery.d.ts" />
-/// <reference path="../../lib/three.d.ts" />
 /// <reference path="../core/utils.ts" />
 
 module BP3D.Three {
@@ -15,7 +13,7 @@ module BP3D.Three {
     var basePlanes = []; // always visible
     var texture = null;
 
-    var lightMap = THREE.ImageUtils.loadTexture("rooms/textures/walllightmap.png");
+    var lightMap = scene.textureLoader.load("rooms/textures/walllightmap.png");
     var fillerColor = 0xdddddd;
     var sideColor = 0xcccccc;
     var baseColor = 0xdddddd;
@@ -114,7 +112,7 @@ module BP3D.Three {
       var stretch = textureData.stretch;
       var url = textureData.url;
       var scale = textureData.scale;
-      texture = THREE.ImageUtils.loadTexture(url, null, callback);
+      texture = scene.textureLoader.load(url, callback);
       if (!stretch) {
         var height = wall.height;
         var width = edge.interiorDistance();
