@@ -1,5 +1,5 @@
 /// <reference path="../../lib/three.d.ts" />
-/// <reference path="../../lib/jQuery.d.ts" />
+/// <reference path="../../lib/jquery.d.ts" />
 /// <reference path="../core/utils.ts" />
 /// <reference path="../items/factory.ts" />
 
@@ -136,7 +136,7 @@ module BP3D.Model {
       this.loader.load(
         fileName,
         loaderCallback,
-        undefined // TODO_Ekki 
+        undefined // TODO_Ekki
       );
     }
   }
