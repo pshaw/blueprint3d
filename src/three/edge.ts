@@ -1,4 +1,4 @@
-/// <reference path="../../lib/jQuery.d.ts" />
+/// <reference path="../../lib/jquery.d.ts" />
 /// <reference path="../../lib/three.d.ts" />
 /// <reference path="../core/utils.ts" />
 

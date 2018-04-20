@@ -1,5 +1,5 @@
 /// <reference path="../../lib/three.d.ts" />
-/// <reference path="../../lib/jQuery.d.ts" />
+/// <reference path="../../lib/jquery.d.ts" />
 /// <reference path="../core/configuration.ts" />
 /// <reference path="../core/utils.ts" />
 /// <reference path="../items/item.ts" />
@@ -14,9 +14,9 @@ module BP3D.Model {
     scale: 0
   }
 
-  /** 
+  /**
    * A Wall is the basic element to create Rooms.
-   * 
+   *
    * Walls consists of two half edges.
    */
   export class Wall {
@@ -60,7 +60,7 @@ module BP3D.Model {
     /** Actions to be applied explicitly. */
     private action_callbacks = $.Callbacks();
 
-    /** 
+    /**
      * Constructs a new wall.
      * @param start Start corner.
      * @param end End corner.

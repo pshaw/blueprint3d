@@ -8,7 +8,7 @@ Contributors:
  * @author erich666 / http://erichaines.com
  */
 
-/// <reference path="../../lib/jQuery.d.ts" />
+/// <reference path="../../lib/jquery.d.ts" />
 /// <reference path="../../lib/three.d.ts" />
 
 module BP3D.Three {

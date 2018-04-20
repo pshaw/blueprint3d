@@ -1,13 +1,13 @@
 /// <reference path="../../lib/three.d.ts" />
-/// <reference path="../../lib/jQuery.d.ts" />
+/// <reference path="../../lib/jquery.d.ts" />
 /// <reference path="../core/utils.ts" />
 
 module BP3D.Model {
   /**
    * Half Edges are created by Room.
-   * 
+   *
    * Once rooms have been identified, Half Edges are created for each interior wall.
-   * 
+   *
    * A wall can have two half edges if it is visible from both sides.
    */
   export class HalfEdge {
@@ -62,7 +62,7 @@ module BP3D.Model {
     }
 
     /**
-     * 
+     *
      */
     public getTexture() {
       if (this.front) {
@@ -73,7 +73,7 @@ module BP3D.Model {
     }
 
     /**
-     * 
+     *
      */
     public setTexture(textureUrl: string, textureStretch: boolean, textureScale: number) {
       var texture = {
@@ -89,7 +89,7 @@ module BP3D.Model {
       this.redrawCallbacks.fire();
     }
 
-    /** 
+    /**
      * this feels hacky, but need wall items
      */
     public generatePlane = function () {
@@ -233,7 +233,7 @@ module BP3D.Model {
         this.exteriorEnd(), this.exteriorStart()];
     }
 
-    /** 
+    /**
      * Gets CCW angle from v1 to v2
      */
     private halfAngleVector(v1: HalfEdge, v2: HalfEdge): { x: number, y: number } {

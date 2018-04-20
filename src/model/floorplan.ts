@@ -1,4 +1,4 @@
-/// <reference path="../../lib/jQuery.d.ts" />
+/// <reference path="../../lib/jquery.d.ts" />
 /// <reference path="../../lib/three.d.ts" />
 /// <reference path="../core/utils.ts" />
 /// <reference path="wall.ts" />
@@ -10,7 +10,7 @@ module BP3D.Model {
   /** */
   const defaultFloorPlanTolerance = 10.0;
 
-  /** 
+  /**
    * A Floorplan represents a number of Walls, Corners and Rooms.
    */
   export class Floorplan {
@@ -39,8 +39,8 @@ module BP3D.Model {
     /** */
     public roomLoadedCallbacks = $.Callbacks();
 
-    /** 
-    * Floor textures are owned by the floorplan, because room objects are 
+    /**
+    * Floor textures are owned by the floorplan, because room objects are
     * destroyed and created each time we change the floorplan.
     * floorTextures is a map of room UUIDs (string) to a object with
     * url and scale attributes.
@@ -289,7 +289,7 @@ module BP3D.Model {
       this.walls = [];
     }
 
-    /** 
+    /**
      * Update rooms
      */
     public update() {
@@ -309,7 +309,7 @@ module BP3D.Model {
       this.updated_rooms.fire();
     }
 
-    /** 
+    /**
      * Returns the center of the floorplan in the y plane
      */
     public getCenter() {
@@ -444,7 +444,7 @@ module BP3D.Model {
               continue;
             }
 
-            // nope, throw it on the queue  
+            // nope, throw it on the queue
             addToStack.push(nextCorner);
           }
 
