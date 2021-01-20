@@ -139,7 +139,7 @@ module BP3D.Model {
       var corner = new Corner(this, x, y, id);
       this.corners.push(corner);
       corner.fireOnDelete(() => {
-        this.removeCorner;
+        this.removeCorner(corner);
       });
       this.new_corner_callbacks.fire(corner);
       return corner;
